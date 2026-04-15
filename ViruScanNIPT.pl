@@ -81,7 +81,6 @@ my %step_script = (
     virostat_visualizer        => "$bin_dir/ViroStat_Visualizer.py",
 );
 
-# 不在主脚本启动阶段统一检查 bin/ 下脚本是否存在
 
 create_dir_structure($opt{outdir});
 my %dir = build_dir_map($opt{outdir});
