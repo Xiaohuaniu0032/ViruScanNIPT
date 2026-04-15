@@ -1,0 +1,89 @@
+#==================================================
+# ViruScanNIPT.conf.example
+#
+# Example configuration file for ViruScanNIPT pipeline
+#
+# Purpose:
+#   This file stores only:
+#     1. software paths
+#     2. reference/database paths
+#     3. fixed resource parameters
+#     4. fixed filtering/calling thresholds
+#
+# Important:
+#   1. Do NOT put run-specific parameters here:
+#        - fq.list
+#        - outdir
+#   2. These run-specific parameters must be provided
+#      only in the ViruScanNIPT.pl command line.
+#==================================================
+
+
+#==================================================
+# 1. Software paths
+#==================================================
+
+BWA=/path/to/bwa
+SAMTOOLS=/path/to/samtools
+BLASTN=/path/to/blastn
+
+# Python interpreter for visualization
+# can be absolute path or command name such as python / python3
+PYTHON3=/path/to/python3
+
+
+#==================================================
+# 2. Reference and database paths
+#==================================================
+
+HG38_REF=/path/to/reference/GRCh38_no_alt_analysis_set.fa
+
+# BLAST DB prefix
+VIRAL_DB=/path/to/blastdb/viral
+
+# accession -> organism name
+LOCUS_ORGANISM=/path/to/locus_organism.tsv
+
+# accession -> Groupname
+HUMAN_DNA_VIRUS_DB=/path/to/224_human_host_DNA_viruses.txt
+
+
+#==================================================
+# 3. Resource parameters
+#==================================================
+
+BWA_THREADS=4
+BLAST_THREADS=4
+
+
+#==================================================
+# 4. BLAST running parameters
+#==================================================
+
+MAX_TARGET_SEQS=5
+MAX_HSPS=1
+
+
+#==================================================
+# 5. BLAST filtering thresholds
+#==================================================
+
+EVALUE_CUTOFF=1e-5
+IDENTITY_CUTOFF=97
+ALIGNMENT_LENGTH_CUTOFF=35
+
+
+#==================================================
+# 6. Group-level calling parameter
+#==================================================
+
+POSITIVE_HIT_CUTOFF=2
+
+
+#==================================================
+# 7. Intermediate file retention policy
+#==================================================
+
+# 1 = keep
+# 0 = remove selected intermediate files
+KEEP_INTERMEDIATE=0

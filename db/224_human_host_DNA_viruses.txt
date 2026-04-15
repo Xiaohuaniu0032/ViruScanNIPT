@@ -1,0 +1,225 @@
+Reference_accession	Groupname
+NC_001829.1	Adeno-associated virus
+NC_001401.2	Adeno-associated virus
+NC_001729.1	Adeno-associated virus
+NC_002077.1	Adeno-associated virus
+NC_001454.1	Adenovirus
+NC_006879.1	Adenovirus
+NC_001405.1	Adenovirus
+NC_001460.1	Adenovirus
+NC_011202.1	Adenovirus
+NC_010956.1	Adenovirus
+NC_003266.2	Adenovirus
+AC_000011.1	Adenovirus
+AC_000006.1	Adenovirus
+AC_000005.1	Adenovirus
+AC_000008.1	Adenovirus
+NC_011203.1	Adenovirus
+AC_000017.1	Adenovirus
+NC_012959.1	Adenovirus
+AC_000010.1	Adenovirus
+AC_000007.1	Adenovirus
+AC_000019.1	Adenovirus
+AC_000018.1	Adenovirus
+NC_012564.1	Bocaparvovirus
+NC_012042.1	Bocaparvovirus
+NC_007455.1	Bocaparvovirus
+NC_012729.2	Bocaparvovirus
+NC_022089.1	Protoparvovirus
+NC_024888.1	Protoparvovirus
+NC_021568.1	Cyclovirus
+NC_039215.1	Cyclovirus
+NC_032682.2	Cyclovirus
+NC_038412.1	Cyclovirus
+NC_036877.1	Cyclovirus
+NC_038413.1	Cyclovirus
+NC_038414.1	Cyclovirus
+NC_038415.1	Cyclovirus
+NC_038416.1	Cyclovirus
+NC_038417.1	Cyclovirus
+NC_038418.1	Cyclovirus
+NC_035474.1	Feces-Smaco
+NC_039070.1	Feces-Smaco
+NC_024691.1	Gemycircularvirus
+NC_026161.1	Gemycircularvirus
+NC_026818.1	Gemycircularvirus
+NC_026817.1	Gemycircularvirus
+NC_030447.1	Gemycircularvirus
+NC_030448.1	Gemycircularvirus
+NC_038496.1	Gemycircularvirus
+NC_038497.1	Gemycircularvirus
+NC_026169.1	Gemycircularvirus
+NC_028459.1	Gemycircularvirus
+NC_001427.1	Gyrovirus
+NC_017091.1	Gyrovirus
+NC_018401.1	Gyrovirus
+NC_022789.1	Gyrovirus
+NC_022788.1	Gyrovirus
+NC_003977.2	Hepatitis B
+NC_001806.2	Herpesvirus 1/2
+NC_001798.2	Herpesvirus 1/2
+NC_001348.1	Herpesvirus 3
+NC_009334.1	Herpesvirus 4
+NC_007605.1	Herpesvirus 4
+NC_006273.2	Herpesvirus 5
+NC_000898.1	Herpesvirus 6 A/B
+NC_001664.4	Herpesvirus 6 A/B
+NC_001716.2	Herpesvirus 7
+NC_009333.1	Herpesvirus 8
+NC_013035.1	Papillomavirus
+NC_014185.1	Papillomavirus
+NC_014469.1	Papillomavirus
+NC_014952.1	Papillomavirus
+NC_014953.1	Papillomavirus
+NC_014954.1	Papillomavirus
+NC_014955.1	Papillomavirus
+NC_014956.1	Papillomavirus
+NC_001690.1	Papillomavirus
+NC_001693.1	Papillomavirus
+NC_001691.1	Papillomavirus
+NC_004500.1	Papillomavirus
+NC_004104.1	Papillomavirus
+NC_001595.1	Papillomavirus
+NC_001694.1	Papillomavirus
+NC_001676.1	Papillomavirus
+NC_001354.1	Papillomavirus
+NC_001458.1	Papillomavirus
+NC_005134.2	Papillomavirus
+NC_001356.1	Papillomavirus
+NC_001457.1	Papillomavirus
+NC_001576.1	Papillomavirus
+NC_001526.4	Papillomavirus
+NC_001357.1	Papillomavirus
+NC_001583.1	Papillomavirus
+NC_001586.1	Papillomavirus
+NC_001587.1	Papillomavirus
+NC_001593.1	Papillomavirus
+NC_001352.1	Papillomavirus
+NC_010329.1	Papillomavirus
+NC_012485.1	Papillomavirus
+NC_001355.1	Papillomavirus
+NC_001591.1	Papillomavirus
+NC_001596.1	Papillomavirus
+NC_001531.1	Papillomavirus
+NC_008188.1	Papillomavirus
+NC_012486.1	Papillomavirus
+NC_016157.1	Papillomavirus
+NC_017993.1	Papillomavirus
+NC_017994.1	Papillomavirus
+NC_017995.1	Papillomavirus
+NC_017996.1	Papillomavirus
+NC_017997.1	Papillomavirus
+NC_027779.1	Papillomavirus
+NC_021483.1	Papillomavirus
+NC_022892.1	Papillomavirus
+NC_023891.1	Papillomavirus
+NC_019023.1	Papillomavirus
+NC_022095.1	Papillomavirus
+NC_026946.1	Papillomavirus
+NC_027528.1	Papillomavirus
+NC_028125.1	Papillomavirus
+NC_033781.1	Papillomavirus
+NC_034616.1	Papillomavirus
+NC_039089.1	Papillomavirus
+NC_038524.1	Papillomavirus
+NC_038525.1	Papillomavirus
+NC_038523.1	Papillomavirus
+NC_038889.1	Papillomavirus
+NC_038914.1	Papillomavirus
+NC_039086.1	Papillomavirus
+NC_040619.1	Papillomavirus
+NC_040688.1	Papillomavirus
+NC_038522.1	Papillomavirus
+NC_008189.1	Papillomavirus
+NC_012213.1	Papillomavirus
+NC_040803.1	Papillomavirus
+NC_040804.1	Papillomavirus
+NC_040550.1	Papillomavirus
+NC_040620.1	Papillomavirus
+NC_040691.1	Papillomavirus
+NC_040805.1	Papillomavirus
+NC_040806.1	Papillomavirus
+NC_000883.2	Parvovirus B19
+NC_004295.1	Parvovirus B19
+NC_014361.1	Polyomavirus
+NC_014407.1	Polyomavirus
+NC_014406.1	Polyomavirus
+NC_015150.1	Polyomavirus
+NC_001699.1	Polyomavirus
+NC_009539.1	Polyomavirus
+NC_010277.2	Polyomavirus
+NC_018102.1	Polyomavirus
+NC_020106.1	Polyomavirus
+NC_024118.1	Polyomavirus
+NC_001538.1	Polyomavirus
+NC_001669.1	Polyomavirus
+NC_034253.1	Polyomavirus
+NC_009238.1	Polyomavirus
+NC_001792.2	Porcine Circo
+NC_005148.1	Porcine Circo
+NC_013804.1	Poxvirus
+NC_003391.1	Poxvirus
+NC_003663.2	Poxvirus
+NC_004105.1	Poxvirus
+NC_001731.1	Poxvirus
+NC_005337.1	Poxvirus
+NC_005336.1	Poxvirus
+NC_003494.1	Poxvirus
+NC_003310.1	Poxvirus
+NC_001611.1	Poxvirus
+NC_006998.1	Poxvirus
+NC_002642.1	Poxvirus
+NC_035469.1	Poxvirus
+NC_007018.1	Protoparvovirus
+NC_039050.1	Protoparvovirus
+NC_026252.1	Smaco
+NC_039063.1	Smaco
+NC_039061.1	Smaco
+NC_039062.1	Smaco
+NC_014068.1	Torque-Teno virus
+NC_014074.1	Torque-Teno virus
+NC_014076.1	Torque-Teno virus
+NC_014080.1	Torque-Teno virus
+NC_014081.1	Torque-Teno virus
+NC_014083.1	Torque-Teno virus
+NC_014086.1	Torque-Teno virus
+NC_014088.1	Torque-Teno virus
+NC_014089.1	Torque-Teno virus
+NC_014093.1	Torque-Teno virus
+NC_014094.1	Torque-Teno virus
+NC_014095.1	Torque-Teno virus
+NC_014097.1	Torque-Teno virus
+NC_002076.2	Torque-Teno virus
+NC_009225.1	Torque-Teno virus
+NC_007013.1	Torque-Teno virus
+NC_015783.1	Torque-Teno virus
+NC_020498.1	Torque-Teno virus
+NC_025727.1	Torque-Teno virus
+NC_025726.1	Torque-Teno virus
+NC_030297.1	Torque-Teno virus
+NC_038337.1	Torque-Teno virus
+NC_038345.1	Torque-Teno virus
+NC_038346.1	Torque-Teno virus
+NC_038347.1	Torque-Teno virus
+NC_038350.1	Torque-Teno virus
+NC_038351.1	Torque-Teno virus
+NC_038352.1	Torque-Teno virus
+NC_038353.1	Torque-Teno virus
+NC_038354.1	Torque-Teno virus
+NC_038355.1	Torque-Teno virus
+NC_038356.1	Torque-Teno virus
+NC_038357.1	Torque-Teno virus
+NC_038358.1	Torque-Teno virus
+NC_038359.1	Torque-Teno virus
+NC_038360.1	Torque-Teno virus
+NC_038361.1	Torque-Teno virus
+NC_007014.1	Torque-Teno virus
+NC_023888.1	NA
+NC_040306.1	NA
+NC_001486.1	NA
+NC_024694.1	NA
+NC_035211.1	NA
+NC_035213.1	NA
+NC_035212.1	NA
+NC_023874.2	NA
+NC_038392.1	NA

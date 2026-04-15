@@ -1,0 +1,13 @@
+# =========================
+# ViruScanNIPT .gitignore
+# =========================
+
+# Production configuration
+conf/ViruScanNIPT.conf
+
+# Test data
+test/data/
+
+# Test results
+test/ViruScanNIPT_result/
+
