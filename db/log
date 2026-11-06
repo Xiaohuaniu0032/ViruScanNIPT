@@ -1,4 +1,0 @@
-(base) [fulongfei@manager VirusHostDB]$ perl extract_virus_host_info.pl
-Done! Output: virushostdb.virus_host.tsv
-
-

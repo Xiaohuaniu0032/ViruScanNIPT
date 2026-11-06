@@ -1,272 +1,353 @@
 # ViruScanNIPT
 
-ViruScanNIPT is a lightweight pipeline framework for viral sequence screening from low-depth noninvasive prenatal testing (NIPT) sequencing data. It is designed to organize sample-level processing and cohort-level summarization in a modular and reproducible way.
+ViruScanNIPT is a lightweight framework for viral sequence screening from low-depth
+noninvasive prenatal testing (NIPT) sequencing data. It generates one executable
+sample-level shell per FASTQ and provides a standalone cohort Summary script.
 
-## Overview
+## 1. Workflow
 
-### Main features
-- Human read removal by alignment to the reference genome
-- Viral sequence search against a BLAST database
-- BLAST result parsing and filtering
-- Viral accession annotation to organism names and predefined human DNA virus groups
-- Sample-level group status calling
-- Cohort-level ranking, co-detection analysis, and distribution statistics
-- Downstream visualization support
+The project has two independent phases:
 
-### Intended use
-This pipeline is intended for research use, especially for retrospective virome analysis of low-depth NIPT sequencing datasets.
+1. **Sample-level analysis**: `ViruScanNIPT.pl` creates one directory per sample
+   directly under `--outdir` and writes one `<sample>.run.sh` in that directory.
+   It does not execute the generated shells.
+2. **Cohort-level Summary**: after all sample shells finish, run
+   `bin/summarizeGroupnameResults.pl`. It reads the parsed BLAST result files and
+   maps their `subject` accessions to the curated Groupname table.
 
----
+The sample workflow itself is:
 
-## Workflow
+```text
+FASTQ
+  |
+  v
+BWA mem against hg38
+  |
+  v
+SAM/BAM conversion, sorting and indexing
+  |
+  v
+Extract unmapped reads
+  |
+  v
+BAM to FASTA
+  |
+  v
+BLASTN against the viral reference database
+  |
+  v
+parseBlast.pl
+  |
+  v
+<sample>_blast_out_parsed.txt
+```
 
-The general workflow is:
+The Summary workflow is independent of BWA, SAMtools and BLASTN:
 
-1. Align raw FASTQ reads to the human reference genome
-2. Extract non-human or unmapped reads
-3. Search reads against a viral BLAST database
-4. Parse and filter BLAST hits
-5. Annotate viral hits to predefined virus groups
-6. Generate sample-level and cohort-level summary results
+```text
+*_blast_out_parsed.txt + viralGroupname.tsv
+                 |
+                 v
+       summarizeGroupnameResults.pl
+                 |
+                 v
+       sample-level and Groupname-level tables
+```
 
-`ViruScanNIPT.pl` does **not** directly run the whole analysis.  
-Instead, it generates:
-- per-sample shell scripts
-- summary-level shell scripts
-- output directory structure
-- runtime copies of key input and configuration files
-
-Users can then execute the generated shell scripts step by step in their own computing environment.
-
----
-
-## Repository structure
+## 2. Repository structure
 
 ```text
 ViruScanNIPT/
 ├── ViruScanNIPT.pl
 ├── README.md
 ├── .gitignore
-├── bin/
+│
 ├── conf/
-├── db/
-└── test/
+│   └── ViruScanNIPT.conf.example
+│
+├── bin/
+│   ├── makeSampleShells.pl
+│   ├── parseBlast.pl
+│   └── summarizeGroupnameResults.pl
+│
+├── database/
+│   ├── annotation/
+│   │   ├── README.md
+│   │   ├── locusOrganism.tsv
+│   │   ├── viralGroupname.tsv
+│   │   └── source/
+│   │       └── viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.xlsx
+│   ├── metadata/
+│   │   ├── README.md
+│   │   ├── virushostdb.virus_host.tsv
+│   │   └── RefSeq metadata tables
+│   ├── scripts/
+│   │   ├── extractViralGroupname.py
+│   │   └── database annotation/building utilities
+│   └── build/
+│       └── accession/taxonomy intermediate files
+│
+├── tools/
+│   └── viroStatVisualizer.py
+│
+├── docs/
+│   ├── workflow.md
+│   ├── outputFormat.md
+│   └── deprecatedScripts.md
+│
+├── examples/
+│   └── fq.list.example
+│
+├── tests/
+│   ├── fixtures/
+│   └── runSmokeTest.sh
+│
+└── deprecated/
+    ├── summary/
+    ├── legacyBinCommands.sh
+    └── legacyDatabaseCommands.sh
 ```
 
-### Main components
-- `ViruScanNIPT.pl`  
-  Main framework generator of the pipeline
+### Main directories
 
-- `bin/`  
-  Auxiliary scripts for downstream analysis, including:
-  - `VSN_01_make_sample_shells.pl`
-  - `VSN_05_parse_blast.pl`
-  - `VSN_06_merge_sample_results.pl`
-  - `VSN_07_annotate_human_dna_virus.pl`
-  - `VSN_08_call_group_status.pl`
-  - `VSN_09_group_positive_ranking.pl`
-  - `VSN_10_codetection_analysis.pl`
-  - `VSN_11_group_distribution_stats.pl`
-  - `ViroStat_Visualizer.py`
-  - `extract_locus_organism.pl`
+- `bin/`: scripts used by the current sample-level workflow and Summary.
+- `conf/`: software, reference, database and threshold configuration.
+- `database/annotation/`: final accession-to-organism and accession-to-Groupname tables.
+  See [`database/annotation/README.md`](database/annotation/README.md) for their
+  sources, formats and rebuild instructions.
+- `database/metadata/`: RefSeq metadata and the extracted Virus-Host DB reference table.
+  See [`database/metadata/README.md`](database/metadata/README.md) for the
+  Virus-Host DB source, extraction procedure and downstream use.
+- `database/scripts/`: utilities for rebuilding or annotating reference metadata.
+- `database/build/`: accession and taxonomy intermediate files.
+- `tools/`: optional visualization utilities; not required by the core pipeline.
+- `docs/`: workflow and output documentation.
+- `tests/`: lightweight syntax and workflow smoke tests.
+- `deprecated/`: old summary modules and command snippets retained temporarily for comparison.
 
-- `conf/`  
-  Configuration files, including `ViruScanNIPT.conf.example`
+Large hg38 and BLAST database files should remain outside the Git repository. Set their absolute paths in the configuration file.
 
-- `db/`  
-  Annotation resource files, including:
-  - `224_human_host_DNA_viruses.txt`
-  - `locus_organism.tsv`
+## 3. Requirements
 
-- `test/`  
-  Test data and example inputs, including:
-  - `fq.list`
-  - `cmd.sh`
+### Core workflow
 
----
-
-## Requirements
-
-### Operating system
 - Linux
-
-### Required software
 - Perl
 - BWA
 - SAMtools
 - BLASTN
-- Python 3
+- hg38 reference FASTA
+- Viral BLAST nucleotide database
+- Accession-to-organism table (sample-level BLAST annotation)
+- Accession-to-Groupname table (cohort Summary)
 
-### Required resources
-- Human reference genome
-- Viral BLAST database
-- Viral accession-to-organism annotation table
-- Human DNA virus group annotation table
+### Optional utilities
 
----
+- `tools/viroStatVisualizer.py` requires Python 3, pandas, matplotlib and seaborn.
+  It is not called by `ViruScanNIPT.pl` or the Summary script.
+- Rebuilding `database/annotation/viralGroupname.tsv` from the bundled Excel
+  source additionally requires Python 3 and `openpyxl`. This dependency is not
+  required to run the core analysis or Summary workflow.
 
-## Configuration
+## 4. Configuration
 
-The pipeline uses a plain-text configuration file to store:
-- software paths
-- reference and database paths
-- fixed resource parameters
-- BLAST parameters
-- filtering thresholds
-- group-level calling threshold
-- intermediate file retention policy
-
-Example configuration file:
-
-```text
-conf/ViruScanNIPT.conf.example
-```
-
-For local use:
+Copy the example configuration:
 
 ```bash
 cp conf/ViruScanNIPT.conf.example conf/ViruScanNIPT.conf
 ```
 
-Run-specific parameters such as the FASTQ list and output directory should be provided on the command line.
+Edit the absolute paths in the configuration file. The key fields are:
 
----
+| Key | Purpose |
+|---|---|
+| `BWA` | BWA executable |
+| `SAMTOOLS` | SAMtools executable |
+| `BLASTN` | BLASTN executable |
+| `HG38_REF` | Human reference FASTA |
+| `VIRAL_DB` | BLAST database prefix |
+| `LOCUS_ORGANISM` | RefSeq accession-to-organism table |
+| `GROUPNAME_TABLE` | RefSeq accession-to-Groupname table used by Summary |
+| `BWA_THREADS` | BWA threads |
+| `BLAST_THREADS` | BLASTN threads |
+| `MAX_TARGET_SEQS` | BLASTN maximum target sequences |
+| `MAX_HSPS` | BLASTN maximum HSPs |
+| `EVALUE_CUTOFF` | BLAST e-value threshold |
+| `IDENTITY_CUTOFF` | Minimum percent identity |
+| `ALIGNMENT_LENGTH_CUTOFF` | Minimum alignment length |
+| `POSITIVE_HIT_CUTOFF` | Distinct query-read threshold for a positive Groupname |
+| `KEEP_INTERMEDIATE` | Keep or remove selected SAM/BAM intermediates |
 
-## Database and annotation resources
+For backward compatibility, `HUMAN_DNA_VIRUS_DB` is accepted as an alias for `GROUPNAME_TABLE`.
+New configurations should use `GROUPNAME_TABLE`.
 
-### VIRAL_DB
-`VIRAL_DB` should be built from the NCBI RefSeq viral genome FASTA file.
+`database/annotation/locusOrganism.tsv` is extracted from the NCBI RefSeq
+Viral GenBank flat file by reading each record's `LOCUS` and `ORGANISM` fields.
+`database/annotation/viralGroupname.tsv` is generated from the `ACCESSION` and
+`Groupname` columns in the `Accession_Grouping` worksheet of the supplied
+`viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.xlsx` workbook.
+The current mapping contains 298 unique accessions across 36 Groupname labels.
+Groupname values are copied from the workbook and are not inferred from
+Taxonomy, Genus or Virus-Host DB. The workbook and conversion script are retained
+in the repository to make the mapping reproducible. See
+[`database/annotation/README.md`](database/annotation/README.md) for the exact
+source and rebuild commands.
+
+The general virus-host association table `database/metadata/virushostdb.virus_host.tsv`
+is extracted from the official Virus-Host DB download. It retains all host
+associations; human-host filtering is performed only in downstream metadata
+processing. See [`database/metadata/README.md`](database/metadata/README.md)
+for the source, extraction procedure and downstream use.
+
+## 5. Input
+
+The FASTQ list contains one FASTQ file path per line. Both `.fq`, `.fq.gz`, `.fastq`
+and `.fastq.gz` are supported.
 
 Example:
 
-```bash
-wget https://ftp.ncbi.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz
-gzip -dc viral.1.1.genomic.fna.gz > viral.genomic.fna
-
-makeblastdb \
-  -in viral.genomic.fna \
-  -dbtype nucl \
-  -parse_seqids \
-  -title "NCBI viral genomic (nucl)" \
-  -out viral
-```
-
-In the configuration file, `VIRAL_DB` should point to the BLAST database prefix, for example:
-
 ```text
-/path/to/viral
+/path/to/sampleA.fq.gz
+/path/to/sampleB.fastq.gz
 ```
 
-### LOCUS_ORGANISM
-`LOCUS_ORGANISM` is a tab-delimited mapping table from RefSeq viral accession (`LOCUS`) to organism name.
+Relative FASTQ paths are resolved first relative to the current working directory and
+then relative to the directory containing `fq.list`.
 
-It can be generated from a RefSeq viral GenBank flat file such as `viral.1.genomic.gbff.gz` using the helper script:
+Sample names are derived from the FASTQ filename after removing the FASTQ suffix.
+Duplicate sample names are not allowed.
 
-```text
-bin/extract_locus_organism.pl
-```
+## 6. Generate sample shells
 
-Example:
-
-```bash
-perl bin/extract_locus_organism.pl viral.1.genomic.gbff.gz > locus_organism.tsv
-```
-
-### HUMAN_DNA_VIRUS_DB
-`HUMAN_DNA_VIRUS_DB` is a manually curated annotation table used to map viral accessions to predefined human-host DNA virus groups.
-
-In this project, `224_human_host_DNA_viruses.txt` was compiled based on a published human DNA virus resource:
-
-- PMID: 35403226
-
-Users may further revise or expand this table according to their own study design and grouping strategy.
-
----
-
-## Input
-
-The pipeline requires:
-- a configuration file
-- a FASTQ list file
-- raw FASTQ files
-
-### FASTQ list format
-One FASTQ path per line, for example:
-
-```text
-/path/to/sample1.fq.gz
-/path/to/sample2.fq.gz
-/path/to/sample3.fq.gz
-```
-
----
-
-## Usage
-
-### Basic command
+Run:
 
 ```bash
 perl ViruScanNIPT.pl \
   --config conf/ViruScanNIPT.conf \
-  --fq-list test/fq.list \
-  --outdir test/ViruScanNIPT_result
+  --fq-list examples/fq.list.example \
+  --outdir ViruScanNIPT_result
 ```
 
-### Arguments
-- `--config` : configuration file
-- `--fq-list` : input FASTQ list
-- `--outdir` : output directory
-- `--help` : print help information
-
-### Example
-A minimal example command is already provided in:
+The output is intentionally flat:
 
 ```text
-test/cmd.sh
+ViruScanNIPT_result/
+├── CL100200740_L01_12/
+│   ├── CL100200740_L01_12.run.sh
+│   ├── CL100200740_L01_12.blast.out
+│   ├── CL100200740_L01_12_blast_out_parsed.txt
+│   └── sample log and intermediate files
+├── Sample_B/
+│   └── ...
+└── ...
 ```
 
-### Before running
-Please confirm that:
-- all software paths are correct
-- all reference and database files are available
-- the FASTQ list is correctly formatted
-- the output directory is writable
+No `01_sample_shells`, `02_summary_shells`, `03_summary_analysis`, `04_logs` or
+per-step subdirectories are created. Each sample's generated shell and its analysis
+files are stored directly in that sample's directory.
 
----
+The generated shell:
+- uses Bash double-quoted arguments;
+- contains no single-quote character;
+- is executable;
+- runs the sample-level steps sequentially when submitted;
+- is not executed automatically by `ViruScanNIPT.pl`.
 
-## Output
+Paths containing a literal single-quote character are rejected by the shell generator,
+because generated sample shells are required to contain no single-quote character.
 
-Running `ViruScanNIPT.pl` generates a working analysis framework rather than final biological results directly.
+To run one sample:
 
-Typical outputs include:
-- sample-level shell scripts
-- summary-level shell scripts
-- organized output directories
-- copied configuration and input files
-- log files for pipeline generation
+```bash
+bash ViruScanNIPT_result/CL100200740_L01_12/CL100200740_L01_12.run.sh
+```
 
-After executing the generated shell scripts, downstream outputs may include:
-- parsed BLAST result tables
-- merged sample-level viral detection results
-- annotated virus tables
-- sample-level group status results
-- group-level ranking tables
-- co-detection analysis results
-- group distribution statistics
-- visualization-ready summary files
+To submit multiple samples, submit each `*.run.sh` using the local HPC scheduler.
 
----
+## 7. Run the standalone Summary
 
-## Notes
+After all sample shells have completed and the parsed result file exists in every
+sample directory, run:
 
-- This repository is a pipeline **framework generator**, not a single-command end-to-end executor.
-- Viral detection results should be interpreted with caution, especially for low-depth sequencing data.
-- The reference genome, BLAST database, and annotation resources should be version-consistent.
-- Keep `conf/ViruScanNIPT.conf.example` in the repository, and exclude production configuration files from version control.
-- Test data and large result directories should also be excluded from version control when not required for public release.
+```bash
+perl bin/summarizeGroupnameResults.pl \
+  --input ViruScanNIPT_result \
+  --group-table database/annotation/viralGroupname.tsv \
+  --outdir ViruScanNIPT_result/Summary \
+  --positive-hit-cutoff 2
+```
 
----
+A single parsed file can also be summarized:
 
-## Contact
+```bash
+perl bin/summarizeGroupnameResults.pl \
+  --input ViruScanNIPT_result/CL100200740_L01_12/CL100200740_L01_12_blast_out_parsed.txt \
+  --group-table database/annotation/viralGroupname.tsv \
+  --outdir ViruScanNIPT_result/CL100200740_L01_12/Summary \
+  --positive-hit-cutoff 2
+```
 
-For questions, bug reports, or suggestions, please open an issue in this repository.
+The Groupname table must contain an accession column (`ACCESSION` or
+`Reference_accession`) and a `Groupname` column. Other annotation columns are allowed.
+Accession version suffixes such as `.1` or `.2` are removed before matching.
+
+The Summary script searches recursively for `*_blast_out_parsed.txt`. If a sample
+directory contains a generated `.run.sh` but its parsed result is missing, Summary
+stops with an error rather than silently reducing the cohort denominator.
+
+## 8. Summary outputs
+
+| File | Description |
+|---|---|
+| `sampleGroupCounts.tsv` | One row per sample × Groupname, distinct query count and Positive/Negative status. Zero-count combinations are retained. |
+| `sampleSummary.tsv` | Per-sample distinct assigned query count, number of groups with at least one read, number of positive groups and their names. |
+| `groupSummary.tsv` | Group-level positive sample count/rate, total distinct queries and read-count distribution statistics among positive samples. |
+| `groupReadCounts.tsv` | Positive sample-level read counts for each Groupname; also serves as input to the optional visualizer. |
+| `groupCoDetection.tsv` | Pairwise Groupname co-detection counts and cohort percentages. |
+| `sampleCoDetection.tsv` | Exact positive-Groupname combination for each sample with at least two positive groups. |
+| `groupCombinationSummary.tsv` | Frequency of each exact multi-Groupname combination. |
+| `unmappedAccessions.tsv` | Parsed accessions not found in the Groupname table, for annotation QC. |
+| `summary.log` | Input files, sample count, mapped/unmapped records, threshold and output path. |
+
+### Counting rules
+
+1. A read is represented by its `query` identifier in the parsed BLAST table.
+2. Each query is counted once per sample per Groupname, even if duplicate rows or
+   multiple reference accessions within the same Groupname are present.
+3. A sample is Positive for a Groupname when its distinct query count is greater than
+   or equal to `POSITIVE_HIT_CUTOFF` (default 2).
+4. The same sample can be positive for multiple Groupnames. Group-specific counts and
+   percentages are therefore not mutually exclusive.
+5. The cohort denominator is the number of unique samples represented by the parsed
+   files supplied to Summary.
+6. Rows whose `viral_name` contains `phage` are excluded, preserving the previous merge-stage filter.
+7. Rows whose Groupname is `NA` or `N/A` are not treated as valid Groupname assignments.
+
+## 9. Optional visualization
+
+```bash
+python tools/viroStatVisualizer.py \
+  ViruScanNIPT_result/Summary/groupReadCounts.tsv
+```
+
+The plot is written to the same Summary directory.
+
+## 10. Tests
+
+Run the lightweight smoke test:
+
+```bash
+bash tests/runSmokeTest.sh
+```
+
+The test checks Perl syntax, verifies that sample shells are generated directly under
+the output directory without single quotes or nested directories, and tests Summary
+with small fixture data. It does not run BWA, SAMtools or BLASTN.
+
+## 11. Interpretation
+
+ViruScanNIPT is a research workflow for screening viral sequence signals in NIPT
+sequencing data. A BLAST hit or Groupname-level positive call is not, by itself,
+evidence of active infection, fetal infection or a clinical diagnosis. Interpretation
+requires consideration of sequencing background, reference/database composition,
+read-level evidence, sample context and orthogonal clinical validation.

@@ -1,0 +1,2 @@
+sample	query	subject	identity	alignment_length	evalue	viral_name
+sampleB	q1	NC_003977.2	100	35	1e-10	Hepatitis B virus
