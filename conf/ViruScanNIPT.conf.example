@@ -1,20 +1,26 @@
 # ViruScanNIPT configuration
-# Use absolute paths for executables, reference files, and database files.
+# Strict format: every key below is required exactly once.
+# Unknown keys, duplicate keys, empty values and legacy aliases are rejected.
+# Use absolute paths. Do not append inline comments to values.
 
-# Software
-BWA=/path/to/bwa
-SAMTOOLS=/path/to/samtools
-BLASTN=/path/to/blastn
+# Software executables
+BWA=/absolute/path/to/bwa
+SAMTOOLS=/absolute/path/to/samtools
+BLASTN=/absolute/path/to/blastn
 
-# Human reference and viral BLAST database
-HG38_REF=/path/to/GRCh38_no_alt_analysis_set.fa
-VIRAL_DB=/path/to/blastdb/viral
+# Human reference FASTA and its BWA index files (.amb/.ann/.bwt/.pac/.sa)
+HG38_REF=/absolute/path/to/GRCh38_no_alt_analysis_set.fa
+
+# Viral nucleotide BLAST database prefix.
+# Provide either a BLAST nucleotide alias (.nal) or the complete index set
+# (.nhr/.nin/.nsq) beside this prefix.
+VIRAL_DB=/absolute/path/to/blastdb/viral
 
 # Annotation tables
-LOCUS_ORGANISM=/path/to/ViruScanNIPT/database/annotation/locusOrganism.tsv
-GROUPNAME_TABLE=/path/to/ViruScanNIPT/database/annotation/viralGroupname.tsv
+LOCUS_ORGANISM=/absolute/path/to/ViruScanNIPT/database/annotation/locusOrganism.tsv
+GROUPNAME_TABLE=/absolute/path/to/ViruScanNIPT/database/annotation/viralGroupname.tsv
 
-# Resource parameters
+# Resource parameters (positive integers)
 BWA_THREADS=4
 BLAST_THREADS=4
 MAX_TARGET_SEQS=5
@@ -28,5 +34,5 @@ ALIGNMENT_LENGTH_CUTOFF=35
 # Summary positive definition: distinct query reads per sample per Groupname
 POSITIVE_HIT_CUTOFF=2
 
-# 1 = keep SAM/BAM/sorted BAM; 0 = remove selected intermediate files
+# 1 = keep SAM/BAM/sorted BAM; 0 = remove selected SAM/BAM intermediates
 KEEP_INTERMEDIATE=0

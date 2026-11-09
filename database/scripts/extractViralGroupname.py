@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract ACCESSION and Groupname from the curated Excel annotation workbook."""
+"""Build viralGroupname.tsv from the curated grouped RefSeq metadata TSV."""
 
 from __future__ import annotations
 
@@ -8,106 +8,108 @@ import csv
 import sys
 from pathlib import Path
 
-try:
-    from openpyxl import load_workbook
-except ImportError as exc:
-    print(
-        "[ERROR] Missing Python dependency. Install openpyxl with "
-        "'python3 -m pip install openpyxl'.",
-        file=sys.stderr,
-    )
-    raise SystemExit(1) from exc
-
-
 DEFAULT_INPUT = Path(
-    "database/annotation/source/"
-    "viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.xlsx"
+    "database/metadata/"
+    "viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv"
 )
 DEFAULT_OUTPUT = Path("database/annotation/viralGroupname.tsv")
-SHEET_NAME = "Accession_Grouping"
 REQUIRED_COLUMNS = ("ACCESSION", "Groupname")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Build viralGroupname.tsv from the Accession_Grouping worksheet "
-            "of the curated ViruScanNIPT annotation workbook."
+            "Extract ACCESSION and Groupname from the curated grouped viral "
+            "metadata TSV and write database/annotation/viralGroupname.tsv."
         )
     )
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT,
-                        help=f"Source Excel workbook (default: {DEFAULT_INPUT})")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT,
-                        help=f"Output TSV (default: {DEFAULT_OUTPUT})")
+    parser.add_argument(
+        "--input",
+        type=Path,
+        default=DEFAULT_INPUT,
+        help=f"Source grouped metadata TSV (default: {DEFAULT_INPUT})",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT,
+        help=f"Output mapping TSV (default: {DEFAULT_OUTPUT})",
+    )
     args = parser.parse_args()
 
     if not args.input.is_file():
-        parser.error(f"Input workbook does not exist: {args.input}")
-
-    workbook = load_workbook(args.input, read_only=True, data_only=True)
-    if SHEET_NAME not in workbook.sheetnames:
-        parser.error(
-            f"Worksheet '{SHEET_NAME}' not found. Available sheets: "
-            + ", ".join(workbook.sheetnames)
-        )
-
-    worksheet = workbook[SHEET_NAME]
-    rows = worksheet.iter_rows(values_only=True)
-    try:
-        header = next(rows)
-    except StopIteration:
-        parser.error(f"Worksheet '{SHEET_NAME}' is empty")
-
-    header_index = {
-        str(value).strip(): index
-        for index, value in enumerate(header)
-        if value is not None and str(value).strip()
-    }
-    missing = [name for name in REQUIRED_COLUMNS if name not in header_index]
-    if missing:
-        parser.error("Required column(s) missing: " + ", ".join(missing))
-
-    accession_index = header_index["ACCESSION"]
-    groupname_index = header_index["Groupname"]
+        parser.error(f"Input TSV does not exist: {args.input}")
 
     records: list[tuple[str, str]] = []
     seen_accessions: set[str] = set()
 
-    for excel_row, row in enumerate(rows, start=2):
-        accession_value = row[accession_index] if accession_index < len(row) else None
-        groupname_value = row[groupname_index] if groupname_index < len(row) else None
+    try:
+        with args.input.open("r", encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            if reader.fieldnames is None:
+                parser.error(f"Input TSV is empty: {args.input}")
 
-        accession = "" if accession_value is None else str(accession_value).strip()
-        groupname = "" if groupname_value is None else str(groupname_value).strip()
+            missing = [
+                column for column in REQUIRED_COLUMNS
+                if column not in reader.fieldnames
+            ]
+            if missing:
+                parser.error(
+                    "Required column(s) missing from input TSV: "
+                    + ", ".join(missing)
+                )
 
-        if not accession or not groupname:
-            parser.error(
-                f"Blank ACCESSION or Groupname at worksheet row {excel_row}; "
-                "please check the source workbook."
-            )
-        if accession in seen_accessions:
-            parser.error(
-                f"Duplicated ACCESSION '{accession}' at worksheet row {excel_row}."
-            )
+            for line_number, row in enumerate(reader, start=2):
+                accession_value = row.get("ACCESSION")
+                groupname_value = row.get("Groupname")
 
-        seen_accessions.add(accession)
-        records.append((accession, groupname))
+                accession = (
+                    "" if accession_value is None else accession_value.strip()
+                )
+                groupname = (
+                    "" if groupname_value is None else groupname_value.strip()
+                )
+
+                if not accession or not groupname:
+                    parser.error(
+                        f"Blank ACCESSION or Groupname at input line "
+                        f"{line_number}; please check {args.input}."
+                    )
+
+                if accession in seen_accessions:
+                    parser.error(
+                        f"Duplicated ACCESSION '{accession}' at input line "
+                        f"{line_number}."
+                    )
+
+                # Keep the ACCESSION identifier as supplied by the source TSV.
+                # Do not remove RefSeq version suffixes or rewrite accession IDs.
+                seen_accessions.add(accession)
+                records.append((accession, groupname))
+
+    except (OSError, UnicodeError, csv.Error) as exc:
+        parser.error(f"Cannot read input TSV {args.input}: {exc}")
+
+    if not records:
+        parser.error(f"No data rows found in input TSV: {args.input}")
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    with args.output.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
-        writer.writerow(REQUIRED_COLUMNS)
-        writer.writerows(records)
-
-    workbook.close()
+    try:
+        with args.output.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.writer(
+                handle, delimiter="\t", lineterminator="\n"
+            )
+            writer.writerow(REQUIRED_COLUMNS)
+            writer.writerows(records)
+    except OSError as exc:
+        parser.error(f"Cannot write output TSV {args.output}: {exc}")
 
     group_count = len({groupname for _, groupname in records})
-    print(f"Source workbook : {args.input}")
-    print(f"Worksheet       : {SHEET_NAME}")
-    print(f"Output          : {args.output}")
-    print(f"Data rows       : {len(records)}")
-    print(f"Unique accessions: {len(seen_accessions)}")
-    print(f"Groupname labels: {group_count}")
+    print(f"Source TSV       : {args.input}")
+    print(f"Output TSV       : {args.output}")
+    print(f"Data rows        : {len(records)}")
+    print(f"Unique ACCESSION : {len(seen_accessions)}")
+    print(f"Groupname labels : {group_count}")
     return 0
 
 
