@@ -1,13 +1,14 @@
 # ViruScanNIPT
 
 ViruScanNIPT is a research workflow for screening viral sequence signals in
-single-end, low-depth noninvasive prenatal testing (NIPT) FASTQ data. It first
-aligns reads to a human reference, extracts unmapped reads, searches those reads
-against a viral nucleotide BLAST database, and summarizes parsed viral hits
-using curated `Groupname` annotations.
+single-end, low-depth noninvasive prenatal testing (NIPT) FASTQ data. The
+workflow aligns reads to a human reference, extracts unmapped reads, searches
+them against a viral nucleotide BLAST database, and summarizes the resulting
+viral hits using curated `Groupname` annotations.
 
-The main program **generates sample-level shell scripts; it does not execute
-them**. Cohort Summary is run separately after sample-level analyses finish.
+The main program **generates sample-level shell scripts but does not execute
+them**. Cohort-level Summary is a separate step that runs after the sample
+analyses are complete.
 
 ## 1. Workflow overview
 
@@ -24,16 +25,16 @@ ViruScanNIPT.pl
 Run the generated sample shells
         |
         v
-BWA-MEM against the human reference
+BWA-MEM alignment to the human reference
         |
         v
-SAMtools conversion, sorting and indexing
+SAMtools BAM conversion, sorting and indexing
         |
         v
-Extract unmapped reads and convert to FASTA
+Extraction of unmapped reads and FASTA conversion
         |
         v
-BLASTN against the viral nucleotide database
+BLASTN search against the viral nucleotide database
         |
         v
 bin/parseBlast.pl
@@ -48,8 +49,8 @@ bin/summarizeGroupnameResults.pl
 Sample-level and Groupname-level Summary tables
 ```
 
-See [workflow.md](workflow.md) for the detailed execution flow and
-[outputFormat.md](outputFormat.md) for the output columns and counting rules.
+For details, see [workflow.md](workflow.md). Output columns and counting rules
+are documented in [outputFormat.md](outputFormat.md).
 
 ## 2. Repository structure
 
@@ -121,24 +122,25 @@ ViruScanNIPT/
 
 ### Main directories and files
 
-- `ViruScanNIPT.pl`: validates the current configuration, checks required
-  resources and invokes the sample-shell generator.
-- `bin/`: scripts used by the active sample-level and cohort Summary workflows.
-- `conf/`: the current configuration template. Old configuration aliases are
-  not supported.
-- `database/annotation/`: runtime accession-to-organism and
-  accession-to-Groupname tables.
-- `database/metadata/`: RefSeq-derived metadata snapshots and the Virus-Host DB
-  association table. These files support annotation-resource preparation.
-- `database/scripts/`: utilities for building or updating database metadata.
-  See [database/scripts/README.md](database/scripts/README.md).
-- `examples/`: example FASTQ-list file.
-- `tests/simulated_FASTQ/`: ten synthetic positive-control FASTQ files.
-- `tests/ViruScanNIPT_result/`: parsed BLAST result examples for the ten
+- `ViruScanNIPT.pl` validates the configuration and required resources, then
+  invokes the sample-shell generator.
+- `bin/` contains the scripts used by the active sample-level and cohort
+  Summary workflows.
+- `conf/` contains the current configuration template. Legacy configuration
+  aliases are not supported.
+- `database/annotation/` contains the runtime accession-to-organism and
+  accession-to-Groupname lookup tables.
+- `database/metadata/` contains RefSeq-derived metadata snapshots and the
+  Virus-Host DB association table.
+- `database/scripts/` contains utilities for preparing or updating database
+  metadata. See [database/scripts/README.md](database/scripts/README.md).
+- `examples/` contains an example FASTQ list.
+- `tests/simulated_FASTQ/` contains ten synthetic positive-control FASTQ files.
+- `tests/ViruScanNIPT_result/` contains parsed BLAST examples for the ten
   simulated samples. The existing `cmd.sh` and `all.sh` helper scripts are
-  retained. `all.sh` contains machine-specific paths and should be reviewed
-  before use on another system.
-- `tests/cmd.sh`: existing helper shell retained in the repository.
+  retained. The paths in `all.sh` are specific to the system where it was
+  created and should be reviewed before use elsewhere.
+- `tests/cmd.sh` is also retained from the original project.
 
 Large human-reference FASTA files, BWA indexes and viral BLAST database files
 should be stored outside the repository. Do not commit production sequencing
@@ -153,23 +155,47 @@ data or local runtime configuration files.
 - Perl
 - BWA with the `mem` command
 - SAMtools
-- NCBI BLAST+ (`blastn`)
-- Human reference FASTA indexed for BWA
-- Viral nucleotide BLAST database
+- NCBI BLAST+ with `blastn`
+- A human reference FASTA indexed for BWA
+- A viral nucleotide BLAST database
 - `database/annotation/locusOrganism.tsv`
 - `database/annotation/viralGroupname.tsv`
 
 The active Perl workflow uses standard Perl modules. Python is not required
 for sample-level analysis or cohort Summary.
 
-### Database-resource preparation
+### Database preparation requirements
 
-- Python 3 is required only when regenerating `viralGroupname.tsv`; the
-  extractor uses the Python standard library.
-- `gzip` is required when reading compressed GBFF input.
-- The accession extraction utilities use `IO::Uncompress::Gunzip`.
+Python 3 is required only when regenerating `viralGroupname.tsv`. The extractor
+uses the Python standard library and does not require third-party packages.
+`gzip` is required when reading compressed GBFF input. The accession extraction
+utilities use `IO::Uncompress::Gunzip`.
 
-## 4. Configuration
+## 4. Database annotation resources
+
+The two runtime annotation tables have different sources:
+
+- `locusOrganism.tsv` is extracted from the `LOCUS` and `ORGANISM` fields of
+  NCBI RefSeq Viral GenBank flat files.
+- `viralGroupname.tsv` is generated from
+  `database/metadata/viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv`.
+  Only the `ACCESSION` and `Groupname` columns are copied.
+
+Regenerate `viralGroupname.tsv` from the repository root with:
+
+```bash
+python3 database/scripts/extractViralGroupname.py
+```
+
+The extractor preserves the source row order and accession identifiers. It
+does not remove accession version suffixes or recalculate Groupname labels.
+The Summary program normalizes accession version suffixes when matching parsed
+BLAST subjects to the mapping table.
+
+See [database/annotation/README.md](database/annotation/README.md) for the
+source, format and update procedure for both annotation tables.
+
+## 5. Configuration
 
 Create a working configuration file:
 
@@ -180,7 +206,7 @@ cp conf/ViruScanNIPT.conf.example conf/ViruScanNIPT.conf
 Edit every value in `conf/ViruScanNIPT.conf`. All keys in the current template
 are mandatory and must appear exactly once.
 
-| Key | Required value |
+| Key | Purpose |
 |---|---|
 | `BWA` | Absolute path to the BWA executable |
 | `SAMTOOLS` | Absolute path to the SAMtools executable |
@@ -189,38 +215,38 @@ are mandatory and must appear exactly once.
 | `VIRAL_DB` | Absolute prefix of the viral nucleotide BLAST database |
 | `LOCUS_ORGANISM` | Absolute path to `database/annotation/locusOrganism.tsv` |
 | `GROUPNAME_TABLE` | Absolute path to `database/annotation/viralGroupname.tsv` |
-| `BWA_THREADS` | Positive integer; BWA threads per sample |
-| `BLAST_THREADS` | Positive integer; BLASTN threads per sample |
-| `MAX_TARGET_SEQS` | Positive integer passed to BLASTN |
-| `MAX_HSPS` | Positive integer passed to BLASTN |
-| `EVALUE_CUTOFF` | Positive numeric BLAST e-value threshold |
-| `IDENTITY_CUTOFF` | Percent identity threshold, greater than 0 and at most 100 |
-| `ALIGNMENT_LENGTH_CUTOFF` | Positive integer minimum alignment length |
-| `POSITIVE_HIT_CUTOFF` | Positive integer number of distinct query reads required for a Groupname-positive call |
-| `KEEP_INTERMEDIATE` | `1` keeps selected SAM/BAM files; `0` removes selected alignment intermediates after a successful run |
+| `BWA_THREADS` | Number of BWA threads per sample |
+| `BLAST_THREADS` | Number of BLASTN threads per sample |
+| `MAX_TARGET_SEQS` | Maximum target sequences passed to BLASTN |
+| `MAX_HSPS` | Maximum HSPs passed to BLASTN |
+| `EVALUE_CUTOFF` | BLAST e-value threshold |
+| `IDENTITY_CUTOFF` | Minimum percent identity |
+| `ALIGNMENT_LENGTH_CUTOFF` | Minimum alignment length in bases |
+| `POSITIVE_HIT_CUTOFF` | Minimum number of distinct query reads required for a Groupname-positive call |
+| `KEEP_INTERMEDIATE` | `1` retains selected SAM/BAM files. `0` removes them after a successful sample run. |
 
 Configuration validation is strict:
 
-- Only keys in `conf/ViruScanNIPT.conf.example` are accepted.
+- Only keys listed in `conf/ViruScanNIPT.conf.example` are accepted.
 - Missing, duplicated, unknown or empty entries cause an error.
 - Legacy aliases such as `HUMAN_DNA_VIRUS_DB` are not supported.
 - Executable, reference, database-prefix and annotation-table paths must be
   absolute.
-- Inline comments after values are not supported; put comments on separate
+- Inline comments after values are not supported. Put comments on separate
   lines.
 - The configured BWA reference must have `.amb`, `.ann`, `.bwt`, `.pac` and
   `.sa` index files.
 - The viral nucleotide BLAST database must have a `.nal` alias file or the
   `.nhr`, `.nin` and `.nsq` index files.
-- `GROUPNAME_TABLE` must contain the `ACCESSION` and `Groupname` columns.
-  Both values must be non-empty and each accession must be unique.
+- `GROUPNAME_TABLE` must contain `ACCESSION` and `Groupname` columns. Both
+  values must be non-empty, and each accession must be unique.
 
-## 5. Input FASTQ list
+## 6. Input FASTQ list
 
 The FASTQ list contains one single-end FASTQ path per line. Blank lines and
 lines beginning with `#` are ignored.
 
-Supported suffixes:
+Supported file suffixes:
 
 - `.fq`
 - `.fq.gz`
@@ -234,15 +260,16 @@ Example:
 /path/to/sampleB.fastq.gz
 ```
 
-Relative FASTQ paths are resolved relative to the current working directory
-or the directory containing the FASTQ list. Sample names are derived from the
-FASTQ filename after removing its FASTQ suffix. Duplicate sample names are
-rejected. Valid sample names contain only letters, digits, underscore,
-period and hyphen.
+Relative FASTQ paths are resolved first from the current working directory and
+then from the directory containing the FASTQ list.
 
-## 6. Generate and run sample shells
+The sample name is derived from the FASTQ filename after removing its FASTQ
+suffix. Duplicate sample names are rejected. Valid sample names contain only
+letters, digits, underscores, periods and hyphens.
 
-Run from the project root:
+## 7. Generate and run sample shells
+
+Run the following command from the repository root:
 
 ```bash
 perl ViruScanNIPT.pl \
@@ -251,7 +278,7 @@ perl ViruScanNIPT.pl \
   --outdir ViruScanNIPT_result
 ```
 
-The command creates one sample directory directly under `--outdir`:
+The program creates one sample directory directly under `--outdir`:
 
 ```text
 ViruScanNIPT_result/
@@ -262,8 +289,8 @@ ViruScanNIPT_result/
 ```
 
 The generated shell is executable and is not run automatically. It uses
-double-quoted arguments. Paths containing a single quote or newline are not
-supported by the shell generator.
+double-quoted arguments. Paths containing a single quote or newline are
+rejected by the shell generator.
 
 Run a sample manually:
 
@@ -272,19 +299,19 @@ bash ViruScanNIPT_result/sampleA/sampleA.run.sh
 ```
 
 For multiple samples, submit each generated `*.run.sh` through the local HPC
-scheduler. The sample shell runs commands sequentially and stops after a
-failed command (`set -euo pipefail`).
+scheduler. Each shell runs the sample-level commands sequentially and stops
+when a command fails.
 
 After shell generation, `ViruScanNIPT.pl` prints the cohort Summary command
 using `GROUPNAME_TABLE` and `POSITIVE_HIT_CUTOFF` from the configuration. Run
 that command after all sample-level parsed result files are ready.
 
-## 7. Run cohort Summary
+## 8. Run cohort Summary
 
 The Summary program is independent of BWA, SAMtools and BLASTN. It reads the
-parsed result files and maps each `subject` accession to a Groupname.
+parsed result files and maps each `subject` accession to a curated Groupname.
 
-The equivalent command is:
+Run the Summary program with:
 
 ```bash
 perl bin/summarizeGroupnameResults.pl \
@@ -294,7 +321,7 @@ perl bin/summarizeGroupnameResults.pl \
   --positive-hit-cutoff 2
 ```
 
-Replace `2` with the `POSITIVE_HIT_CUTOFF` value in your configuration if it
+Replace `2` with the `POSITIVE_HIT_CUTOFF` value in the configuration if it
 differs.
 
 A single parsed file can also be summarized:
@@ -308,69 +335,49 @@ perl bin/summarizeGroupnameResults.pl \
 ```
 
 The Summary program recursively discovers files ending in
-`_blast_out_parsed.txt`. It combines files with the same sample ID and counts
-each query identifier once per sample per Groupname. A sample directory with
-a generated `.run.sh` but no parsed result file is treated as an incomplete
-sample and causes Summary to stop rather than silently reducing the cohort
-denominator.
+`_blast_out_parsed.txt`. Files with the same sample ID are combined. Each query
+is counted once per sample per Groupname. A sample directory containing a
+generated `.run.sh` but no parsed result file is treated as incomplete and
+causes Summary to stop rather than silently reducing the cohort denominator.
 
-See [outputFormat.md](outputFormat.md) for the output columns and counting
+See [outputFormat.md](outputFormat.md) for all output columns and counting
 rules.
-
-## 8. Database resources
-
-The sample-level parser uses `locusOrganism.tsv` to annotate BLAST subject
-accessions with organism names. Cohort Summary uses `viralGroupname.tsv` to
-map accessions to curated Groupname labels.
-
-The two files have different sources:
-
-- `locusOrganism.tsv` is extracted from the `LOCUS` and `ORGANISM` fields of
-  NCBI RefSeq Viral GBFF records.
-- `viralGroupname.tsv` is generated from
-  `database/metadata/viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv`.
-  The extractor copies only the `ACCESSION` and `Groupname` columns, retaining
-  the accession identifiers as supplied in the source file.
-
-See [database/annotation/README.md](database/annotation/README.md) for
-annotation-table sources, formats and rebuild commands.
-
-`virushostdb.virus_host.tsv` is a general virus-host association table
-extracted from Virus-Host DB. It retains recorded host associations; filtering
-for `Homo sapiens` is a separate downstream operation. See
-[database/metadata/README.md](database/metadata/README.md).
 
 ## 9. Simulated FASTQ data
 
-`tests/simulated_FASTQ/` contains ten single-end FASTQ files, each with 1,000
-reads of 35 bp. The reads are sampled from selected DNA-virus reference
-regions for HSV-1, human cytomegalovirus, HPV16 and varicella-zoster virus.
-This is an enriched positive-control simulation with no sequencing errors
-and no human-background reads; it is not a model of the full complexity or
-abundance distribution of clinical NIPT cfDNA.
+`tests/simulated_FASTQ/` contains ten single-end FASTQ files. Each file has
+1,000 reads of 35 bp, for 10,000 reads in total. The reads are sampled from
+selected DNA-virus reference regions for HSV-1, human cytomegalovirus, HPV16
+and varicella-zoster virus.
 
-The corresponding parsed BLAST result examples are stored under
-`tests/ViruScanNIPT_result/SimSample*/`. They can be used as example inputs
-for the cohort Summary program without rerunning BWA or BLASTN.
+This is an enriched positive-control simulation. It contains no sequencing
+errors and no human-background reads, so it does not represent the full
+complexity or abundance distribution of clinical NIPT cfDNA.
+
+The corresponding parsed BLAST examples are stored under
+`tests/ViruScanNIPT_result/SimSample*/`. They can be used to run the cohort
+Summary without rerunning BWA or BLASTN.
 
 See [tests/simulated_FASTQ/README.md](tests/simulated_FASTQ/README.md) for
-simulation design, reference traceability and limitations.
+the simulation design, reference traceability and limitations.
 
-Regenerate the simulated FASTQ files into a separate directory:
+To regenerate the simulated FASTQ files into a separate directory, run:
 
 ```bash
 python3 tests/simulated_FASTQ/generate_simulated_fastq.py \
   --outdir tests/simulated_FASTQ_regenerated
 ```
 
-The generator uses a fixed random seed by default and does not overwrite the
-committed simulation files when the separate output directory is used.
+The generator uses a fixed random seed by default. The example command writes
+to a separate directory and does not overwrite the committed simulation files.
 
 ## 10. Interpretation
 
 ViruScanNIPT is a research workflow for screening viral sequence signals in
 NIPT sequencing data. A BLAST hit or Groupname-level positive call is not, by
-itself, evidence of active infection, maternal infection, fetal infection or a
-clinical diagnosis. Interpretation requires review of read-level evidence,
-background and contamination controls, reference/database composition,
-sample context and orthogonal clinical validation.
+itself, evidence of active infection, maternal infection, fetal infection or
+a clinical diagnosis.
+
+Interpretation requires review of read-level evidence, background and
+contamination controls, reference and database composition, sample context,
+and orthogonal clinical validation.

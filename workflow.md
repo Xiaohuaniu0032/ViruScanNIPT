@@ -1,29 +1,38 @@
 # Workflow
 
-ViruScanNIPT has two separate execution phases. The main program prepares sample-level shell scripts; the cohort Summary is run independently after all sample-level analyses finish.
+ViruScanNIPT has two execution phases. The main program generates sample-level
+shell scripts. Cohort-level Summary is run separately after the sample
+analyses have finished.
 
 ## 1. Configuration and preflight checks
 
-Run `ViruScanNIPT.pl` with:
+Run `ViruScanNIPT.pl` with three required inputs:
 
-- a current-format configuration file;
-- a FASTQ list containing one single-end FASTQ path per line;
-- an output directory.
+- A configuration file in the current format.
+- A FASTQ list containing one single-end FASTQ path per line.
+- An output directory.
 
-Every configuration key in `conf/ViruScanNIPT.conf.example` is mandatory and must occur exactly once. Unknown keys, duplicate keys, missing values and legacy aliases are rejected. All configured executable, reference, database-prefix and annotation-table paths must be absolute.
+Every key in `conf/ViruScanNIPT.conf.example` is mandatory and must occur
+exactly once. Unknown keys, duplicate keys, missing values and legacy aliases
+are rejected. All configured executable, reference, database-prefix and
+annotation-table paths must be absolute.
 
-Before generating shells, the program checks:
+Before generating sample shells, the main program checks that:
 
-- BWA, SAMtools and BLASTN are executable;
-- the human reference FASTA and its five BWA index components (`.amb`, `.ann`, `.bwt`, `.pac`, `.sa`) exist;
-- the viral nucleotide BLAST database is available as a `.nal` alias or has `.nhr`, `.nin` and `.nsq` index files;
-- both annotation tables exist and are non-empty;
-- the Groupname table contains `ACCESSION` and `Groupname` columns;
-- numeric configuration values are in the required ranges.
+- BWA, SAMtools and BLASTN are executable.
+- The human reference FASTA and its five BWA index components exist:
+  `.amb`, `.ann`, `.bwt`, `.pac` and `.sa`.
+- The viral nucleotide BLAST database is available as a `.nal` alias or has
+  the `.nhr`, `.nin` and `.nsq` index files.
+- Both annotation tables exist and are non-empty.
+- The Groupname table contains `ACCESSION` and `Groupname` columns.
+- Required numeric settings are within their permitted ranges.
 
 ## 2. Sample-level shell generation
 
-`ViruScanNIPT.pl` calls `bin/makeSampleShells.pl`. The output directory contains one folder per sample, with no extra workflow-stage directories:
+`ViruScanNIPT.pl` calls `bin/makeSampleShells.pl`. The program creates one
+sample directory directly under the specified output directory. It does not
+create additional workflow-stage directories.
 
 ```text
 <outdir>/
@@ -33,23 +42,33 @@ Before generating shells, the program checks:
     └── <sampleB>.run.sh
 ```
 
-The generated shell is executable and is not run automatically. It uses Bash double-quoted arguments. Paths containing a single quote or newline cannot be represented in the required shell format and are rejected.
+Each generated shell is executable but is not run automatically. Arguments
+are written using Bash double quotes. Paths containing a single quote or a
+newline are rejected because they cannot be represented in the required
+generated-shell format.
+
+The sample name is derived from the FASTQ filename after removing `.fq`,
+`.fq.gz`, `.fastq` or `.fastq.gz`. Duplicate sample names are not allowed.
 
 ## 3. Per-sample analysis
 
-Each `<sample>.run.sh` executes the following commands sequentially.
+Each `<sample>.run.sh` executes the following steps in order.
 
 ### 3.1 Align reads to the human reference
+
+BWA-MEM aligns the single-end FASTQ reads to the configured human reference:
 
 ```bash
 bwa mem -t BWA_THREADS HG38_REF sample.fq > sample.sam
 ```
 
-The workflow currently accepts one FASTQ file per sample and therefore runs single-end BWA-MEM.
+The current workflow accepts one FASTQ file per sample and therefore uses
+single-end alignment.
 
 ### 3.2 Convert, sort and index alignments
 
-SAMtools converts SAM to BAM, sorts the BAM and creates its index:
+SAMtools converts the SAM file to BAM, sorts the BAM file and creates its
+index. The main alignment files are:
 
 ```text
 <sample>.bam
@@ -59,11 +78,12 @@ SAMtools converts SAM to BAM, sorts the BAM and creates its index:
 
 ### 3.3 Extract unmapped reads
 
-Reads with the SAM unmapped flag are extracted from the sorted BAM:
+Reads carrying the SAM unmapped flag are extracted from the sorted BAM file.
+SAMtools then converts the unmapped BAM records to FASTA.
 
 ```bash
-samtools view -b -f 4 <sample>.sort.bam
-samtools fasta <sample>.unmapped.bam
+samtools view -b -f 4 -o <sample>.unmapped.bam <sample>.sort.bam
+samtools fasta <sample>.unmapped.bam > <sample>.unmapped.fa
 ```
 
 The resulting files are:
@@ -73,7 +93,9 @@ The resulting files are:
 
 ### 3.4 Search against the viral nucleotide database
 
-BLASTN is run against `VIRAL_DB` using outfmt 7 and the configured `MAX_TARGET_SEQS`, `MAX_HSPS` and `BLAST_THREADS` values.
+BLASTN searches the unmapped FASTA reads against `VIRAL_DB`. The workflow
+uses outfmt 7 and the configured `MAX_TARGET_SEQS`, `MAX_HSPS` and
+`BLAST_THREADS` values.
 
 The raw BLAST output is:
 
@@ -83,57 +105,93 @@ The raw BLAST output is:
 
 `bin/parseBlast.pl` applies the configured filters:
 
-- subject accession begins with `NC_`, `AC_` or `NG_`;
-- percent identity is greater than or equal to `IDENTITY_CUTOFF`;
-- alignment length is greater than or equal to `ALIGNMENT_LENGTH_CUTOFF`;
-- e-value is less than or equal to `EVALUE_CUTOFF`.
+- The subject accession must begin with `NC_`, `AC_` or `NG_`.
+- Percent identity must be greater than or equal to `IDENTITY_CUTOFF`.
+- Alignment length must be greater than or equal to
+  `ALIGNMENT_LENGTH_CUTOFF`.
+- E-value must be less than or equal to `EVALUE_CUTOFF`.
 
-The parser writes:
+The parser writes two files:
 
-- `<sample>_blast_raw_result.xls`: tab-delimited BLAST alignment fields for retained RefSeq-style accession prefixes, before the identity, length and e-value filters;
-- `<sample>_blast_out_parsed.txt`: one representative qualifying subject hit per query, with the accession version suffix removed and the organism name looked up in `LOCUS_ORGANISM`.
+- `<sample>_blast_raw_result.xls` contains tab-delimited BLAST alignment
+  fields for the retained RefSeq-style accession prefixes. Identity,
+  alignment-length and e-value filters have not yet been applied to this
+  output.
+- `<sample>_blast_out_parsed.txt` contains one representative qualifying
+  subject hit per query. The subject accession version suffix is removed,
+  and the organism name is looked up in `LOCUS_ORGANISM`.
 
-When multiple hits pass the filters for a query, the current parser retains the first qualifying hit in the BLAST output order. BLAST output ordering is therefore part of the current best-hit behavior.
+When multiple hits pass the filters for one query, the parser retains the
+first qualifying hit in BLAST output order. The selected hit therefore
+depends on the order of records in the BLAST output.
 
-The parsed table has these columns:
+The parsed table contains these columns:
 
 ```text
 sample  query  subject  identity  alignment_length  evalue  viral_name
 ```
 
-`subject` is versionless in the parsed output. `viral_name` is `NA` when the accession is not present in `locusOrganism.tsv`.
+The `subject` value is versionless. `viral_name` is `NA` when the accession
+cannot be found in `locusOrganism.tsv`.
 
 ## 4. Intermediate-file retention
 
-The `KEEP_INTERMEDIATE` setting controls only the selected alignment files:
+`KEEP_INTERMEDIATE` controls whether selected alignment files are retained:
 
-- `KEEP_INTERMEDIATE=1`: retain SAM, BAM, sorted BAM and sorted BAM index files.
-- `KEEP_INTERMEDIATE=0`: remove the SAM, BAM, sorted BAM and sorted BAM index after the sample shell reaches the cleanup step successfully.
+- `KEEP_INTERMEDIATE=1` retains the SAM, BAM, sorted BAM and sorted BAM index.
+- `KEEP_INTERMEDIATE=0` removes those files after the sample shell reaches
+  its cleanup step successfully.
 
-The following files are retained in either mode:
+The following files are retained in both modes:
 
-- unmapped BAM and FASTA;
-- BLAST output;
-- parsed and raw parsed-result tables;
-- BWA, SAMtools, BLAST and parser logs;
-- the generated sample shell.
+- Unmapped BAM and FASTA files.
+- Raw BLAST output.
+- Parsed and raw parsed-result tables.
+- BWA, SAMtools, BLAST and parser logs.
+- The generated sample shell.
 
-If a command fails, `set -euo pipefail` stops the shell before the final cleanup step, so intermediate files may remain for troubleshooting.
+Each generated shell uses `set -euo pipefail`. If a command fails, execution
+stops before the final cleanup step. Intermediate files may therefore remain
+for troubleshooting.
 
 ## 5. Cohort-level Summary
 
-After all sample-level shells finish, run `bin/summarizeGroupnameResults.pl`. The main program prints a Summary command using the configured `GROUPNAME_TABLE` and `POSITIVE_HIT_CUTOFF`.
+After all sample-level shells have finished, run
+`bin/summarizeGroupnameResults.pl`. The main program prints a Summary command
+using `GROUPNAME_TABLE` and `POSITIVE_HIT_CUTOFF` from the configuration.
 
-The Summary script:
+The Summary program performs the following operations:
 
-1. Recursively finds files ending in `_blast_out_parsed.txt` under the input directory, or accepts one parsed file directly.
+1. Recursively finds files ending in `_blast_out_parsed.txt` under the input
+   directory. It can also accept one parsed file directly.
 2. Reads the `sample`, `query` and `subject` columns.
-3. Removes accession version suffixes before matching `subject` to `ACCESSION` in `viralGroupname.tsv`.
-4. Excludes parsed rows whose `viral_name` contains `phage`, and does not assign rows with missing or `NA` Groupname values.
-5. Counts each distinct query once per sample per Groupname. Multiple accessions assigned to the same Groupname do not inflate the count for the same query.
-6. Calls a sample positive for a Groupname when the distinct query count is greater than or equal to `POSITIVE_HIT_CUTOFF`.
-7. Writes sample-level, Groupname-level, co-detection and unmapped-accession tables.
+3. Removes accession version suffixes before matching `subject` to
+   `ACCESSION` in `viralGroupname.tsv`.
+4. Excludes records whose `viral_name` contains `phage`, ignoring letter case.
+   Records with missing or `NA` Groupname assignments are not counted.
+5. Counts each distinct query once per sample per Groupname. Multiple
+   accessions assigned to the same Groupname do not increase the count for
+   the same sample-query pair.
+6. Calls a sample positive for a Groupname when its distinct query count is
+   greater than or equal to `POSITIVE_HIT_CUTOFF`.
+7. Writes sample-level, Groupname-level, co-detection and unmapped-accession
+   tables.
 
-If more than one parsed file represents the same sample ID, their query records are combined. A header-only parsed file still represents a sample; the sample ID is inferred from the filename. If a child sample directory contains a generated `.run.sh` but no parsed file, the Summary script stops with an error rather than silently omitting that sample from the cohort denominator.
+If multiple parsed files represent the same sample ID, their records are
+combined before counting. A header-only parsed file still represents a
+sample. In that case, the sample ID is inferred from the filename.
 
-See [outputFormat.md](outputFormat.md) for the exact output columns and statistical definitions.
+If a child sample directory contains a generated `.run.sh` but has no parsed
+result file, Summary stops with an error. This prevents an incomplete sample
+from being silently omitted from the cohort denominator.
+
+See [outputFormat.md](outputFormat.md) for the output columns, counting units
+and statistical definitions.
+
+## 6. Interpretation
+
+The Summary positive status is an operational threshold based on distinct
+query reads assigned to a Groupname. It is not a clinical diagnosis and does
+not establish active infection, maternal infection or fetal infection.
+Interpretation requires read-level review, suitable controls, database
+assessment and clinical validation.

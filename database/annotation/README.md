@@ -1,20 +1,20 @@
 # Annotation resources
 
-This directory contains the two annotation tables used by the active
+This directory contains the two annotation tables required by the active
 ViruScanNIPT workflow:
 
-- `locusOrganism.tsv`: RefSeq Viral `LOCUS` to `ORGANISM` lookup.
-- `viralGroupname.tsv`: curated `ACCESSION` to `Groupname` lookup.
+- `locusOrganism.tsv` maps RefSeq Viral `LOCUS` identifiers to organism names.
+- `viralGroupname.tsv` maps reference accessions to curated `Groupname` labels.
 
-The two files have different sources and are rebuilt independently.
+The two tables have different sources and are rebuilt independently.
 
 ## 1. `locusOrganism.tsv`
 
 ### Purpose
 
-`locusOrganism.tsv` maps a viral reference sequence identifier to its organism
-name. `bin/parseBlast.pl` uses this table to populate the `viral_name` column
-in each `<sample>_blast_out_parsed.txt` file.
+`locusOrganism.tsv` provides the organism name for a viral reference
+accession. `bin/parseBlast.pl` uses this table to populate the `viral_name`
+column in each `<sample>_blast_out_parsed.txt` file.
 
 ### Source
 
@@ -24,13 +24,13 @@ The source is the NCBI RefSeq Viral GenBank flat file:
 - Download directory:
   <https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/>
 
-The project script `database/scripts/extractLocusOrganism.pl` extracts the
-`LOCUS` identifier and `ORGANISM` name from each GenBank record. It does not
-infer organism names from NCBI Taxonomy or Virus-Host DB.
+`database/scripts/extractLocusOrganism.pl` extracts the `LOCUS` identifier and
+`ORGANISM` name from each GenBank record. It does not infer organism names
+from NCBI Taxonomy or Virus-Host DB.
 
 ### Rebuild
 
-Run from the repository root:
+Run the following commands from the repository root:
 
 ```bash
 wget -c https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.genomic.gbff.gz
@@ -40,17 +40,17 @@ perl database/scripts/extractLocusOrganism.pl \
   > database/annotation/locusOrganism.tsv
 ```
 
-The script accepts compressed `.gbff.gz` and uncompressed `.gbff` input.
-`gzip` must be available for compressed input.
+The script accepts compressed `.gbff.gz` files and uncompressed `.gbff`
+files. `gzip` must be available when the input is compressed.
 
 ### Format
 
-The file is headerless and contains two tab-delimited columns:
+The file is headerless and contains two tab-delimited columns.
 
 | Column | Meaning |
 |---|---|
-| 1 | `LOCUS` identifier from the GBFF record |
-| 2 | Organism name from the GBFF `ORGANISM` field |
+| 1 | `LOCUS` identifier from the GBFF record. |
+| 2 | Organism name from the GBFF `ORGANISM` field. |
 
 Example:
 
@@ -59,9 +59,9 @@ NC_029549    Emaravirus tritici
 NC_029550    Emaravirus tritici
 ```
 
-The checked-in snapshot contains 19,019 records. The identifiers are
-versionless. `bin/parseBlast.pl` removes the version suffix from each BLAST
-subject accession before looking up the organism name.
+The current repository snapshot contains 19,019 records. The identifiers in
+this table are versionless. `bin/parseBlast.pl` removes the version suffix
+from each BLAST subject accession before looking up the organism name.
 
 ### Update notes
 
@@ -69,18 +69,18 @@ subject accession before looking up the organism name.
   viral BLAST database.
 - Update the FASTA database and annotation table together to avoid mixing
   release snapshots.
-- Record the source release and retrieval date when updating the table.
-- This table supplies organism names only; it does not assign Groupname or
-  host species.
+- Record the source release and retrieval date when updating the resource.
+- This table supplies organism names. It does not assign Groupname labels
+  or host species.
 
 ## 2. `viralGroupname.tsv`
 
 ### Purpose
 
-`viralGroupname.tsv` maps viral reference accessions to the curated `Groupname`
-labels used by `bin/summarizeGroupnameResults.pl`. The Summary script uses the
-`subject` accession in parsed BLAST results to assign each query read to a
-Groupname.
+`viralGroupname.tsv` maps viral reference accessions to the curated
+`Groupname` labels used by `bin/summarizeGroupnameResults.pl`. The Summary
+program uses each parsed BLAST `subject` accession to assign query reads to
+Groupname categories.
 
 ### Authoritative source
 
@@ -88,30 +88,28 @@ The sole source for this mapping is:
 
 `database/metadata/viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv`
 
-This is the curated, tab-delimited metadata table in `database/metadata/`.
-It contains the following columns:
+This tab-delimited metadata table contains the following columns:
 
 ```text
 ACCESSION  ORGANISM  mol_type  host  taxon  Genus  VirusHostDB_host_name  Groupname
 ```
 
-Only the `ACCESSION` and `Groupname` columns are extracted. The other columns
-remain in the source metadata table and are not copied into
-`viralGroupname.tsv`.
+Only `ACCESSION` and `Groupname` are extracted. The remaining columns stay
+in the source metadata table and are not copied to `viralGroupname.tsv`.
 
-The Groupname values are taken directly from the `Groupname` column. They are
-not recalculated from `ORGANISM`, `Genus`, NCBI Taxonomy files or
-Virus-Host DB. No Excel workbook is required or used.
+Groupname labels are taken directly from the source `Groupname` column.
+They are not recalculated from `ORGANISM`, `Genus`, NCBI Taxonomy files or
+Virus-Host DB. No Excel workbook is required.
 
 ### Generate `viralGroupname.tsv`
 
-Run from the repository root:
+Run the following command from the repository root:
 
 ```bash
 python3 database/scripts/extractViralGroupname.py
 ```
 
-The default input and output paths are:
+The default paths are:
 
 - Input:
   `database/metadata/viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv`
@@ -127,21 +125,21 @@ python3 database/scripts/extractViralGroupname.py \
 
 The script uses only the Python 3 standard library. It:
 
-1. Reads the source TSV using the header names `ACCESSION` and `Groupname`.
+1. Reads the source TSV using the `ACCESSION` and `Groupname` header names.
 2. Extracts these two columns in the original row order.
-3. Writes a two-column TSV with the header `ACCESSION` and `Groupname`.
-4. Preserves the accession identifier as supplied in the source. It does not
-   remove accession version suffixes or rewrite accession identifiers.
-5. Stops with an error if either required column is absent, a value is blank,
-   or an `ACCESSION` occurs more than once.
+3. Writes a TSV with the `ACCESSION` and `Groupname` header.
+4. Preserves accession identifiers exactly as supplied by the source. It
+   does not remove accession version suffixes or rewrite identifiers.
+5. Stops with an error if a required column is missing, a value is blank or
+   an accession is duplicated.
 
 ### Current snapshot and format
 
-The current source table contains 298 data rows, 298 unique `ACCESSION`
-values and 36 distinct Groupname labels. The generated `viralGroupname.tsv`
-contains the same 298 accession-to-Groupname records.
+The current source table contains 298 data rows, 298 unique accessions and
+36 distinct Groupname labels. The generated `viralGroupname.tsv` contains
+the same 298 accession-to-Groupname records.
 
-The output format is:
+Example:
 
 ```text
 ACCESSION    Groupname
@@ -149,20 +147,21 @@ NC_017993    Papillomavirus
 NC_017994    Papillomavirus
 ```
 
-The `ACCESSION` field is retained as a named column. Accession version
-normalization, when needed for matching parsed BLAST subjects, is performed
-by the Summary program and does not modify this source annotation table.
+The `ACCESSION` field is retained as a named column. When matching parsed
+BLAST subjects, the Summary program removes accession version suffixes for
+comparison. This normalization does not modify the source mapping table.
 
-### Update notes
+### Update procedure
 
-When the grouped metadata table is revised:
+When the grouped metadata table is updated:
 
-1. Update `viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv`.
+1. Update
+   `viral.genomic.metadata.with_genus.genomicDNA.host_human.grouped.tsv`.
 2. Confirm that `ACCESSION` and `Groupname` are present and populated.
-3. Run `extractViralGroupname.py` to regenerate the mapping table.
-4. Review the number of rows, unique accessions and Groupname labels.
+3. Run `extractViralGroupname.py` to regenerate the runtime mapping table.
+4. Review the row count, unique accession count and number of Groupname labels.
 5. Keep the grouped metadata source and generated mapping table from the same
    annotation snapshot.
 
-Do not edit `viralGroupname.tsv` independently of its source table unless the
-change is also reflected in the grouped metadata TSV.
+Do not edit `viralGroupname.tsv` independently of its source table unless
+the corresponding change is also made in the grouped metadata TSV.
