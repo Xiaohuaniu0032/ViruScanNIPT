@@ -1,0 +1,7 @@
+Groupname1	Groupname2	CoDetectedSamples	CohortPercent
+Herpesvirus 1/2	Herpesvirus 3	5	50.0000
+Herpesvirus 1/2	Herpesvirus 5	6	60.0000
+Herpesvirus 1/2	Papillomavirus	5	50.0000
+Herpesvirus 3	Herpesvirus 5	5	50.0000
+Herpesvirus 3	Papillomavirus	4	40.0000
+Herpesvirus 5	Papillomavirus	5	50.0000

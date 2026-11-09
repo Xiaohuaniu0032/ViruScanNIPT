@@ -1,0 +1,15 @@
+ViruScanNIPT Groupname summary
+Date: 2026-11-09 10:48:59
+Input: /ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result
+Groupname table: /ehpcdata/fulongfei/git_repo/ViruScanNIPT/database/annotation/viralGroupname.tsv
+Positive cutoff: >= 2 distinct query reads per sample per Groupname
+Parsed files: 10
+Unique samples: 10
+Parsed records: 9807
+Mapped records: 9807
+Unmapped records: 0
+Phage-filtered records: 0
+Groupnames in table: 36
+Samples positive for at least one Groupname: 10
+Samples with multiple parsed files: 0
+Output directory: /ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/Summary

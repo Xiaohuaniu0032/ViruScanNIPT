@@ -1,0 +1,361 @@
+Sample	Groupname	DistinctQueryCount	Status
+SimSample01	Adeno-associated virus	0	Negative
+SimSample01	Adenovirus	0	Negative
+SimSample01	Bacteriophage	0	Negative
+SimSample01	Bocaparvovirus	0	Negative
+SimSample01	Circovirus	0	Negative
+SimSample01	Cyclovirus	0	Negative
+SimSample01	Deltaretrovirus	0	Negative
+SimSample01	Densovirus	0	Negative
+SimSample01	Gemycircularvirus	0	Negative
+SimSample01	Gyrovirus	0	Negative
+SimSample01	Hepatitis B virus	0	Negative
+SimSample01	Herpesvirus 1/2	961	Positive
+SimSample01	Herpesvirus 3	0	Negative
+SimSample01	Herpesvirus 4	0	Negative
+SimSample01	Herpesvirus 5	0	Negative
+SimSample01	Herpesvirus 6 A/B	0	Negative
+SimSample01	Herpesvirus 7	0	Negative
+SimSample01	Herpesvirus 8	0	Negative
+SimSample01	Hudisavirus	0	Negative
+SimSample01	Human endogenous retrovirus	0	Negative
+SimSample01	Human fecal virus	0	Negative
+SimSample01	Husavirus	0	Negative
+SimSample01	Marseillevirus	0	Negative
+SimSample01	Papillomavirus	0	Negative
+SimSample01	Parvovirus B19	0	Negative
+SimSample01	Pecovirus	0	Negative
+SimSample01	Polyomavirus	0	Negative
+SimSample01	Poxvirus	0	Negative
+SimSample01	Protoparvovirus	0	Negative
+SimSample01	Satomivirus	0	Negative
+SimSample01	Simian foamy virus	0	Negative
+SimSample01	Smacovirus	0	Negative
+SimSample01	Torbevirus	0	Negative
+SimSample01	Torque-Teno virus	0	Negative
+SimSample01	Unclassified circular ssDNA virus	0	Negative
+SimSample01	Unclassified human DNA virus	0	Negative
+SimSample02	Adeno-associated virus	0	Negative
+SimSample02	Adenovirus	0	Negative
+SimSample02	Bacteriophage	0	Negative
+SimSample02	Bocaparvovirus	0	Negative
+SimSample02	Circovirus	0	Negative
+SimSample02	Cyclovirus	0	Negative
+SimSample02	Deltaretrovirus	0	Negative
+SimSample02	Densovirus	0	Negative
+SimSample02	Gemycircularvirus	0	Negative
+SimSample02	Gyrovirus	0	Negative
+SimSample02	Hepatitis B virus	0	Negative
+SimSample02	Herpesvirus 1/2	0	Negative
+SimSample02	Herpesvirus 3	0	Negative
+SimSample02	Herpesvirus 4	0	Negative
+SimSample02	Herpesvirus 5	1000	Positive
+SimSample02	Herpesvirus 6 A/B	0	Negative
+SimSample02	Herpesvirus 7	0	Negative
+SimSample02	Herpesvirus 8	0	Negative
+SimSample02	Hudisavirus	0	Negative
+SimSample02	Human endogenous retrovirus	0	Negative
+SimSample02	Human fecal virus	0	Negative
+SimSample02	Husavirus	0	Negative
+SimSample02	Marseillevirus	0	Negative
+SimSample02	Papillomavirus	0	Negative
+SimSample02	Parvovirus B19	0	Negative
+SimSample02	Pecovirus	0	Negative
+SimSample02	Polyomavirus	0	Negative
+SimSample02	Poxvirus	0	Negative
+SimSample02	Protoparvovirus	0	Negative
+SimSample02	Satomivirus	0	Negative
+SimSample02	Simian foamy virus	0	Negative
+SimSample02	Smacovirus	0	Negative
+SimSample02	Torbevirus	0	Negative
+SimSample02	Torque-Teno virus	0	Negative
+SimSample02	Unclassified circular ssDNA virus	0	Negative
+SimSample02	Unclassified human DNA virus	0	Negative
+SimSample03	Adeno-associated virus	0	Negative
+SimSample03	Adenovirus	0	Negative
+SimSample03	Bacteriophage	0	Negative
+SimSample03	Bocaparvovirus	0	Negative
+SimSample03	Circovirus	0	Negative
+SimSample03	Cyclovirus	0	Negative
+SimSample03	Deltaretrovirus	0	Negative
+SimSample03	Densovirus	0	Negative
+SimSample03	Gemycircularvirus	0	Negative
+SimSample03	Gyrovirus	0	Negative
+SimSample03	Hepatitis B virus	0	Negative
+SimSample03	Herpesvirus 1/2	0	Negative
+SimSample03	Herpesvirus 3	0	Negative
+SimSample03	Herpesvirus 4	0	Negative
+SimSample03	Herpesvirus 5	0	Negative
+SimSample03	Herpesvirus 6 A/B	0	Negative
+SimSample03	Herpesvirus 7	0	Negative
+SimSample03	Herpesvirus 8	0	Negative
+SimSample03	Hudisavirus	0	Negative
+SimSample03	Human endogenous retrovirus	0	Negative
+SimSample03	Human fecal virus	0	Negative
+SimSample03	Husavirus	0	Negative
+SimSample03	Marseillevirus	0	Negative
+SimSample03	Papillomavirus	983	Positive
+SimSample03	Parvovirus B19	0	Negative
+SimSample03	Pecovirus	0	Negative
+SimSample03	Polyomavirus	0	Negative
+SimSample03	Poxvirus	0	Negative
+SimSample03	Protoparvovirus	0	Negative
+SimSample03	Satomivirus	0	Negative
+SimSample03	Simian foamy virus	0	Negative
+SimSample03	Smacovirus	0	Negative
+SimSample03	Torbevirus	0	Negative
+SimSample03	Torque-Teno virus	0	Negative
+SimSample03	Unclassified circular ssDNA virus	0	Negative
+SimSample03	Unclassified human DNA virus	0	Negative
+SimSample04	Adeno-associated virus	0	Negative
+SimSample04	Adenovirus	0	Negative
+SimSample04	Bacteriophage	0	Negative
+SimSample04	Bocaparvovirus	0	Negative
+SimSample04	Circovirus	0	Negative
+SimSample04	Cyclovirus	0	Negative
+SimSample04	Deltaretrovirus	0	Negative
+SimSample04	Densovirus	0	Negative
+SimSample04	Gemycircularvirus	0	Negative
+SimSample04	Gyrovirus	0	Negative
+SimSample04	Hepatitis B virus	0	Negative
+SimSample04	Herpesvirus 1/2	0	Negative
+SimSample04	Herpesvirus 3	981	Positive
+SimSample04	Herpesvirus 4	0	Negative
+SimSample04	Herpesvirus 5	0	Negative
+SimSample04	Herpesvirus 6 A/B	0	Negative
+SimSample04	Herpesvirus 7	0	Negative
+SimSample04	Herpesvirus 8	0	Negative
+SimSample04	Hudisavirus	0	Negative
+SimSample04	Human endogenous retrovirus	0	Negative
+SimSample04	Human fecal virus	0	Negative
+SimSample04	Husavirus	0	Negative
+SimSample04	Marseillevirus	0	Negative
+SimSample04	Papillomavirus	0	Negative
+SimSample04	Parvovirus B19	0	Negative
+SimSample04	Pecovirus	0	Negative
+SimSample04	Polyomavirus	0	Negative
+SimSample04	Poxvirus	0	Negative
+SimSample04	Protoparvovirus	0	Negative
+SimSample04	Satomivirus	0	Negative
+SimSample04	Simian foamy virus	0	Negative
+SimSample04	Smacovirus	0	Negative
+SimSample04	Torbevirus	0	Negative
+SimSample04	Torque-Teno virus	0	Negative
+SimSample04	Unclassified circular ssDNA virus	0	Negative
+SimSample04	Unclassified human DNA virus	0	Negative
+SimSample05	Adeno-associated virus	0	Negative
+SimSample05	Adenovirus	0	Negative
+SimSample05	Bacteriophage	0	Negative
+SimSample05	Bocaparvovirus	0	Negative
+SimSample05	Circovirus	0	Negative
+SimSample05	Cyclovirus	0	Negative
+SimSample05	Deltaretrovirus	0	Negative
+SimSample05	Densovirus	0	Negative
+SimSample05	Gemycircularvirus	0	Negative
+SimSample05	Gyrovirus	0	Negative
+SimSample05	Hepatitis B virus	0	Negative
+SimSample05	Herpesvirus 1/2	380	Positive
+SimSample05	Herpesvirus 3	99	Positive
+SimSample05	Herpesvirus 4	0	Negative
+SimSample05	Herpesvirus 5	300	Positive
+SimSample05	Herpesvirus 6 A/B	0	Negative
+SimSample05	Herpesvirus 7	0	Negative
+SimSample05	Herpesvirus 8	0	Negative
+SimSample05	Hudisavirus	0	Negative
+SimSample05	Human endogenous retrovirus	0	Negative
+SimSample05	Human fecal virus	0	Negative
+SimSample05	Husavirus	0	Negative
+SimSample05	Marseillevirus	0	Negative
+SimSample05	Papillomavirus	197	Positive
+SimSample05	Parvovirus B19	0	Negative
+SimSample05	Pecovirus	0	Negative
+SimSample05	Polyomavirus	0	Negative
+SimSample05	Poxvirus	0	Negative
+SimSample05	Protoparvovirus	0	Negative
+SimSample05	Satomivirus	0	Negative
+SimSample05	Simian foamy virus	0	Negative
+SimSample05	Smacovirus	0	Negative
+SimSample05	Torbevirus	0	Negative
+SimSample05	Torque-Teno virus	0	Negative
+SimSample05	Unclassified circular ssDNA virus	0	Negative
+SimSample05	Unclassified human DNA virus	0	Negative
+SimSample06	Adeno-associated virus	0	Negative
+SimSample06	Adenovirus	0	Negative
+SimSample06	Bacteriophage	0	Negative
+SimSample06	Bocaparvovirus	0	Negative
+SimSample06	Circovirus	0	Negative
+SimSample06	Cyclovirus	0	Negative
+SimSample06	Deltaretrovirus	0	Negative
+SimSample06	Densovirus	0	Negative
+SimSample06	Gemycircularvirus	0	Negative
+SimSample06	Gyrovirus	0	Negative
+SimSample06	Hepatitis B virus	0	Negative
+SimSample06	Herpesvirus 1/2	185	Positive
+SimSample06	Herpesvirus 3	295	Positive
+SimSample06	Herpesvirus 4	0	Negative
+SimSample06	Herpesvirus 5	500	Positive
+SimSample06	Herpesvirus 6 A/B	0	Negative
+SimSample06	Herpesvirus 7	0	Negative
+SimSample06	Herpesvirus 8	0	Negative
+SimSample06	Hudisavirus	0	Negative
+SimSample06	Human endogenous retrovirus	0	Negative
+SimSample06	Human fecal virus	0	Negative
+SimSample06	Husavirus	0	Negative
+SimSample06	Marseillevirus	0	Negative
+SimSample06	Papillomavirus	0	Negative
+SimSample06	Parvovirus B19	0	Negative
+SimSample06	Pecovirus	0	Negative
+SimSample06	Polyomavirus	0	Negative
+SimSample06	Poxvirus	0	Negative
+SimSample06	Protoparvovirus	0	Negative
+SimSample06	Satomivirus	0	Negative
+SimSample06	Simian foamy virus	0	Negative
+SimSample06	Smacovirus	0	Negative
+SimSample06	Torbevirus	0	Negative
+SimSample06	Torque-Teno virus	0	Negative
+SimSample06	Unclassified circular ssDNA virus	0	Negative
+SimSample06	Unclassified human DNA virus	0	Negative
+SimSample07	Adeno-associated virus	0	Negative
+SimSample07	Adenovirus	0	Negative
+SimSample07	Bacteriophage	0	Negative
+SimSample07	Bocaparvovirus	0	Negative
+SimSample07	Circovirus	0	Negative
+SimSample07	Cyclovirus	0	Negative
+SimSample07	Deltaretrovirus	0	Negative
+SimSample07	Densovirus	0	Negative
+SimSample07	Gemycircularvirus	0	Negative
+SimSample07	Gyrovirus	0	Negative
+SimSample07	Hepatitis B virus	0	Negative
+SimSample07	Herpesvirus 1/2	193	Positive
+SimSample07	Herpesvirus 3	0	Negative
+SimSample07	Herpesvirus 4	0	Negative
+SimSample07	Herpesvirus 5	300	Positive
+SimSample07	Herpesvirus 6 A/B	0	Negative
+SimSample07	Herpesvirus 7	0	Negative
+SimSample07	Herpesvirus 8	0	Negative
+SimSample07	Hudisavirus	0	Negative
+SimSample07	Human endogenous retrovirus	0	Negative
+SimSample07	Human fecal virus	0	Negative
+SimSample07	Husavirus	0	Negative
+SimSample07	Marseillevirus	0	Negative
+SimSample07	Papillomavirus	493	Positive
+SimSample07	Parvovirus B19	0	Negative
+SimSample07	Pecovirus	0	Negative
+SimSample07	Polyomavirus	0	Negative
+SimSample07	Poxvirus	0	Negative
+SimSample07	Protoparvovirus	0	Negative
+SimSample07	Satomivirus	0	Negative
+SimSample07	Simian foamy virus	0	Negative
+SimSample07	Smacovirus	0	Negative
+SimSample07	Torbevirus	0	Negative
+SimSample07	Torque-Teno virus	0	Negative
+SimSample07	Unclassified circular ssDNA virus	0	Negative
+SimSample07	Unclassified human DNA virus	0	Negative
+SimSample08	Adeno-associated virus	0	Negative
+SimSample08	Adenovirus	0	Negative
+SimSample08	Bacteriophage	0	Negative
+SimSample08	Bocaparvovirus	0	Negative
+SimSample08	Circovirus	0	Negative
+SimSample08	Cyclovirus	0	Negative
+SimSample08	Deltaretrovirus	0	Negative
+SimSample08	Densovirus	0	Negative
+SimSample08	Gemycircularvirus	0	Negative
+SimSample08	Gyrovirus	0	Negative
+SimSample08	Hepatitis B virus	0	Negative
+SimSample08	Herpesvirus 1/2	287	Positive
+SimSample08	Herpesvirus 3	397	Positive
+SimSample08	Herpesvirus 4	0	Negative
+SimSample08	Herpesvirus 5	100	Positive
+SimSample08	Herpesvirus 6 A/B	0	Negative
+SimSample08	Herpesvirus 7	0	Negative
+SimSample08	Herpesvirus 8	0	Negative
+SimSample08	Hudisavirus	0	Negative
+SimSample08	Human endogenous retrovirus	0	Negative
+SimSample08	Human fecal virus	0	Negative
+SimSample08	Husavirus	0	Negative
+SimSample08	Marseillevirus	0	Negative
+SimSample08	Papillomavirus	191	Positive
+SimSample08	Parvovirus B19	0	Negative
+SimSample08	Pecovirus	0	Negative
+SimSample08	Polyomavirus	0	Negative
+SimSample08	Poxvirus	0	Negative
+SimSample08	Protoparvovirus	0	Negative
+SimSample08	Satomivirus	0	Negative
+SimSample08	Simian foamy virus	0	Negative
+SimSample08	Smacovirus	0	Negative
+SimSample08	Torbevirus	0	Negative
+SimSample08	Torque-Teno virus	0	Negative
+SimSample08	Unclassified circular ssDNA virus	0	Negative
+SimSample08	Unclassified human DNA virus	0	Negative
+SimSample09	Adeno-associated virus	0	Negative
+SimSample09	Adenovirus	0	Negative
+SimSample09	Bacteriophage	0	Negative
+SimSample09	Bocaparvovirus	0	Negative
+SimSample09	Circovirus	0	Negative
+SimSample09	Cyclovirus	0	Negative
+SimSample09	Deltaretrovirus	0	Negative
+SimSample09	Densovirus	0	Negative
+SimSample09	Gemycircularvirus	0	Negative
+SimSample09	Gyrovirus	0	Negative
+SimSample09	Hepatitis B virus	0	Negative
+SimSample09	Herpesvirus 1/2	240	Positive
+SimSample09	Herpesvirus 3	248	Positive
+SimSample09	Herpesvirus 4	0	Negative
+SimSample09	Herpesvirus 5	250	Positive
+SimSample09	Herpesvirus 6 A/B	0	Negative
+SimSample09	Herpesvirus 7	0	Negative
+SimSample09	Herpesvirus 8	0	Negative
+SimSample09	Hudisavirus	0	Negative
+SimSample09	Human endogenous retrovirus	0	Negative
+SimSample09	Human fecal virus	0	Negative
+SimSample09	Husavirus	0	Negative
+SimSample09	Marseillevirus	0	Negative
+SimSample09	Papillomavirus	248	Positive
+SimSample09	Parvovirus B19	0	Negative
+SimSample09	Pecovirus	0	Negative
+SimSample09	Polyomavirus	0	Negative
+SimSample09	Poxvirus	0	Negative
+SimSample09	Protoparvovirus	0	Negative
+SimSample09	Satomivirus	0	Negative
+SimSample09	Simian foamy virus	0	Negative
+SimSample09	Smacovirus	0	Negative
+SimSample09	Torbevirus	0	Negative
+SimSample09	Torque-Teno virus	0	Negative
+SimSample09	Unclassified circular ssDNA virus	0	Negative
+SimSample09	Unclassified human DNA virus	0	Negative
+SimSample10	Adeno-associated virus	0	Negative
+SimSample10	Adenovirus	0	Negative
+SimSample10	Bacteriophage	0	Negative
+SimSample10	Bocaparvovirus	0	Negative
+SimSample10	Circovirus	0	Negative
+SimSample10	Cyclovirus	0	Negative
+SimSample10	Deltaretrovirus	0	Negative
+SimSample10	Densovirus	0	Negative
+SimSample10	Gemycircularvirus	0	Negative
+SimSample10	Gyrovirus	0	Negative
+SimSample10	Hepatitis B virus	0	Negative
+SimSample10	Herpesvirus 1/2	284	Positive
+SimSample10	Herpesvirus 3	199	Positive
+SimSample10	Herpesvirus 4	0	Negative
+SimSample10	Herpesvirus 5	300	Positive
+SimSample10	Herpesvirus 6 A/B	0	Negative
+SimSample10	Herpesvirus 7	0	Negative
+SimSample10	Herpesvirus 8	0	Negative
+SimSample10	Hudisavirus	0	Negative
+SimSample10	Human endogenous retrovirus	0	Negative
+SimSample10	Human fecal virus	0	Negative
+SimSample10	Husavirus	0	Negative
+SimSample10	Marseillevirus	0	Negative
+SimSample10	Papillomavirus	196	Positive
+SimSample10	Parvovirus B19	0	Negative
+SimSample10	Pecovirus	0	Negative
+SimSample10	Polyomavirus	0	Negative
+SimSample10	Poxvirus	0	Negative
+SimSample10	Protoparvovirus	0	Negative
+SimSample10	Satomivirus	0	Negative
+SimSample10	Simian foamy virus	0	Negative
+SimSample10	Smacovirus	0	Negative
+SimSample10	Torbevirus	0	Negative
+SimSample10	Torque-Teno virus	0	Negative
+SimSample10	Unclassified circular ssDNA virus	0	Negative
+SimSample10	Unclassified human DNA virus	0	Negative

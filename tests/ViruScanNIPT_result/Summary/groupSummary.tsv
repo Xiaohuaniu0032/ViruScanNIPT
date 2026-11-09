@@ -1,0 +1,37 @@
+Groupname	PositiveSampleCount	TotalSampleCount	PositiveRatePercent	TotalDistinctQueries	MeanReadsPerPositiveSample	MedianReadsPerPositiveSample	Q1	Q3	Min	Max
+Adeno-associated virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Adenovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Bacteriophage	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Bocaparvovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Circovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Cyclovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Deltaretrovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Densovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Gemycircularvirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Gyrovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Hepatitis B virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Herpesvirus 1/2	7	10	70.0000	2530	361.43	284.00	216.50	333.50	185	961
+Herpesvirus 3	6	10	60.0000	2219	369.83	271.50	211.25	371.50	99	981
+Herpesvirus 4	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Herpesvirus 5	7	10	70.0000	2750	392.86	300.00	275.00	400.00	100	1000
+Herpesvirus 6 A/B	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Herpesvirus 7	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Herpesvirus 8	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Hudisavirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Human endogenous retrovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Human fecal virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Husavirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Marseillevirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Papillomavirus	6	10	60.0000	2308	384.67	222.50	196.25	431.75	191	983
+Parvovirus B19	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Pecovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Polyomavirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Poxvirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Protoparvovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Satomivirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Simian foamy virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Smacovirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Torbevirus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Torque-Teno virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Unclassified circular ssDNA virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
+Unclassified human DNA virus	0	10	0.0000	0	NA	NA	NA	NA	NA	NA
