@@ -1,0 +1,41 @@
+sample	virus	accession	organism	groupname	segment	coordinates	read_count
+SimSample01	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	605
+SimSample01	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	196
+SimSample01	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	199
+SimSample02	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	1000
+SimSample03	HPV16	NC_001526.4	Human papillomavirus type 16	Papillomavirus	HPV16_L1	4774-6291	1000
+SimSample04	VZV	NC_001348.1	Human herpesvirus 3 (Varicella-zoster virus)	Herpesvirus 3	VZV_gE	115807-117720	1000
+SimSample05	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	300
+SimSample05	HPV16	NC_001526.4	Human papillomavirus type 16	Papillomavirus	HPV16_L1	4774-6291	200
+SimSample05	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	243
+SimSample05	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	79
+SimSample05	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	78
+SimSample05	VZV	NC_001348.1	Human herpesvirus 3 (Varicella-zoster virus)	Herpesvirus 3	VZV_gE	115807-117720	100
+SimSample06	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	500
+SimSample06	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	134
+SimSample06	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	37
+SimSample06	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	29
+SimSample06	VZV	NC_001348.1	Human herpesvirus 3 (Varicella-zoster virus)	Herpesvirus 3	VZV_gE	115807-117720	300
+SimSample07	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	300
+SimSample07	HPV16	NC_001526.4	Human papillomavirus type 16	Papillomavirus	HPV16_L1	4774-6291	500
+SimSample07	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	125
+SimSample07	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	39
+SimSample07	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	36
+SimSample08	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	100
+SimSample08	HPV16	NC_001526.4	Human papillomavirus type 16	Papillomavirus	HPV16_L1	4774-6291	200
+SimSample08	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	192
+SimSample08	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	59
+SimSample08	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	49
+SimSample08	VZV	NC_001348.1	Human herpesvirus 3 (Varicella-zoster virus)	Herpesvirus 3	VZV_gE	115807-117720	400
+SimSample09	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	250
+SimSample09	HPV16	NC_001526.4	Human papillomavirus type 16	Papillomavirus	HPV16_L1	4774-6291	250
+SimSample09	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	160
+SimSample09	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	52
+SimSample09	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	38
+SimSample09	VZV	NC_001348.1	Human herpesvirus 3 (Varicella-zoster virus)	Herpesvirus 3	VZV_gE	115807-117720	250
+SimSample10	CMV	NC_006273.2	Human herpesvirus 5 strain Merlin	Herpesvirus 5	CMV_gB	82065-84788	300
+SimSample10	HPV16	NC_001526.4	Human papillomavirus type 16	Papillomavirus	HPV16_L1	4774-6291	200
+SimSample10	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_A	141142-143696 (sequence excerpt)	198
+SimSample10	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_B	96311-98668 (sequence excerpt)	48
+SimSample10	HSV1	NC_001806.2	Human herpesvirus 1 strain 17	Herpesvirus 1/2	HSV1_segment_C	137598-141051 (sequence excerpt)	54
+SimSample10	VZV	NC_001348.1	Human herpesvirus 3 (Varicella-zoster virus)	Herpesvirus 3	VZV_gE	115807-117720	200

@@ -5,3 +5,17 @@
 # Production configuration
 tests/ViruScanNIPT.conf.example
 
+tests/fq.list
+
+# Ignore everything directly under ViruScanNIPT_result
+ /tests/ViruScanNIPT_result/*
+
+# Keep SimSample* directories
+!/tests/ViruScanNIPT_result/SimSample*/
+
+# Ignore all files inside SimSample* directories
+/tests/ViruScanNIPT_result/SimSample*/*
+
+# Keep only files ending with parsed.txt
+!/tests/ViruScanNIPT_result/SimSample*/*parsed.txt
+

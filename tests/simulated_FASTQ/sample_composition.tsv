@@ -1,0 +1,27 @@
+sample	virus	accession	groupname	read_count
+SimSample01	HSV1	NC_001806.2	Herpesvirus 1/2	1000
+SimSample02	CMV	NC_006273.2	Herpesvirus 5	1000
+SimSample03	HPV16	NC_001526.4	Papillomavirus	1000
+SimSample04	VZV	NC_001348.1	Herpesvirus 3	1000
+SimSample05	HSV1	NC_001806.2	Herpesvirus 1/2	400
+SimSample05	CMV	NC_006273.2	Herpesvirus 5	300
+SimSample05	HPV16	NC_001526.4	Papillomavirus	200
+SimSample05	VZV	NC_001348.1	Herpesvirus 3	100
+SimSample06	CMV	NC_006273.2	Herpesvirus 5	500
+SimSample06	VZV	NC_001348.1	Herpesvirus 3	300
+SimSample06	HSV1	NC_001806.2	Herpesvirus 1/2	200
+SimSample07	HPV16	NC_001526.4	Papillomavirus	500
+SimSample07	CMV	NC_006273.2	Herpesvirus 5	300
+SimSample07	HSV1	NC_001806.2	Herpesvirus 1/2	200
+SimSample08	VZV	NC_001348.1	Herpesvirus 3	400
+SimSample08	HSV1	NC_001806.2	Herpesvirus 1/2	300
+SimSample08	HPV16	NC_001526.4	Papillomavirus	200
+SimSample08	CMV	NC_006273.2	Herpesvirus 5	100
+SimSample09	HSV1	NC_001806.2	Herpesvirus 1/2	250
+SimSample09	CMV	NC_006273.2	Herpesvirus 5	250
+SimSample09	HPV16	NC_001526.4	Papillomavirus	250
+SimSample09	VZV	NC_001348.1	Herpesvirus 3	250
+SimSample10	HSV1	NC_001806.2	Herpesvirus 1/2	300
+SimSample10	CMV	NC_006273.2	Herpesvirus 5	300
+SimSample10	HPV16	NC_001526.4	Papillomavirus	200
+SimSample10	VZV	NC_001348.1	Herpesvirus 3	200

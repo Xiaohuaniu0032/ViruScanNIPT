@@ -1,0 +1,10 @@
+#/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample01/SimSample01.run.sh
+#/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample02/SimSample02.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample03/SimSample03.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample04/SimSample04.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample05/SimSample05.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample06/SimSample06.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample07/SimSample07.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample08/SimSample08.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample09/SimSample09.run.sh
+/ehpcdata/fulongfei/git_repo/ViruScanNIPT/tests/ViruScanNIPT_result/SimSample10/SimSample10.run.sh

@@ -1,8 +1,0 @@
-sample	query	subject	identity	alignment_length	evalue	viral_name
-sampleA	q1	NC_001716	100	35	1e-10	Human betaherpesvirus 7
-sampleA	q1	NC_001716	100	35	1e-10	Human betaherpesvirus 7
-sampleA	q2	NC_001716	100	35	1e-10	Human betaherpesvirus 7
-sampleA	q3	NC_003977	100	35	1e-10	Hepatitis B virus
-sampleA	q4	NC_003977	100	35	1e-10	Hepatitis B virus
-sampleA	q5	NC_123456	100	35	1e-10	Unmapped virus
-sampleA	q6	NC_003977	100	35	1e-10	Example bacteriophage

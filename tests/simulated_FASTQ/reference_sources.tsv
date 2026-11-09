@@ -1,0 +1,5 @@
+virus	accession	groupname	source_page
+HSV1	NC_001806.2	Herpesvirus 1/2	https://violinet.org/protegen/gene_detail.php?c_gene_id=507; https://violinet.org/vaxgen/gene_detail.php?c_gene_id=506; https://violinet.org/protegen/gene_detail.php?c_gene_id=501
+CMV	NC_006273.2	Herpesvirus 5	https://violinet.org/vaxgen/gene_detail.php?c_gene_id=1239
+HPV16	NC_001526.4	Papillomavirus	https://violinet.org/vaxgen/gene_detail.php?c_gene_id=512
+VZV	NC_001348.1	Herpesvirus 3	https://violinet.org/vaxgen/gene_detail.php?c_gene_id=662
